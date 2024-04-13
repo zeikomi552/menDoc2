@@ -62,7 +62,7 @@ namespace menDoc2.ViewModels
                 using (var cofd = new CommonOpenFileDialog()
                 {
                     Title = "フォルダを選択してください",
-                    InitialDirectory = @"D:\Users\threeshark",
+                    InitialDirectory = @"",
                     // フォルダ選択モードにする
                     IsFolderPicker = true,
                 })
@@ -122,8 +122,6 @@ namespace menDoc2.ViewModels
                         this.FileList.SelectedItem.ClassList.SelectedItem.MethodItems!.SelectedFirst();
                     }
                 }
-
-
             }
             catch (Exception e)
             {

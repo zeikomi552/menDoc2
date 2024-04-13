@@ -159,6 +159,15 @@ namespace menDoc2.Models.Class
         }
         #endregion
 
+        private string ExclusiveTextTrivia(string trivia)
+        {
+            // コメント抜き出し
+            var match = Regex.Match(trivia, @"<summary>[\s\S]*?</summary>");
+            // 不要な文字列削除
+            return match.Value.Replace("<summary>", "").Replace("</summary>", "").Replace("\r\n", "").Replace("///", "").Replace(" ", "").Replace("\t", "");
+        }
+
+
         #region 読込処理
         /// <summary>
         /// 読込処理
@@ -181,11 +190,7 @@ namespace menDoc2.Models.Class
                     cls_tmp.CreateDate = DateTime.Now;
                     cls_tmp.CreateUser = Environment.UserName;
                     var trivia = cls.GetLeadingTrivia().ToString();
-                    // コメント抜き出し
-                    var match = Regex.Match(trivia, @"<summary>[\s\S]*?</summary>");
-                    // 不要な文字列削除
-                    var comment = match.Value.Replace("<summary>", "").Replace("</summary>", "").Replace("\r\n", "").Replace("///", "").Replace(" ", "").Replace("\t", "");
-                    cls_tmp.Description = comment;
+                    cls_tmp.Description = ExclusiveTextTrivia(trivia);
 
                     var properties = cls.DescendantNodes().OfType<PropertyDeclarationSyntax>();
 
@@ -194,18 +199,9 @@ namespace menDoc2.Models.Class
                     {
                         ClassParamM param = new ClassParamM();
                         trivia = field.GetLeadingTrivia().ToString();
-
-                        // コメント抜き出し
-                        match = Regex.Match(trivia, @"<summary>[\s\S]*?</summary>");
-                        // 不要な文字列削除
-                        comment = match.Value.Replace("<summary>", "").Replace("</summary>", "").Replace("\r\n", "").Replace("///", "").Replace(" ", "").Replace("\t", "");
-                        var type = field.Type.ToString();
-                        var value = field.Identifier.Text;
-
-
-                        param.TypeName = type;
-                        param.ValueName = value;
-                        param.Description = comment;
+                        param.TypeName = field.Type.ToString();
+                        param.ValueName = field.Identifier.Text;
+                        param.Description = ExclusiveTextTrivia(trivia);
                         cls_params.Add(param);
                     }
                     cls_tmp.ParameterItems = new ModelList<ClassParamM>(cls_params);
@@ -215,12 +211,24 @@ namespace menDoc2.Models.Class
                     {
                         ClassMethodM clsmethod = new ClassMethodM();
                         trivia = method.GetLeadingTrivia().ToString();
-                        // コメント抜き出し
-                        match = Regex.Match(trivia, @"<summary>[\s\S]*?</summary>");
-                        // 不要な文字列削除
-                        comment = match.Value.Replace("<summary>", "").Replace("</summary>", "").Replace("\r\n", "").Replace("///", "").Replace(" ", "").Replace("\t", "");
-                        clsmethod.Description = comment;
+                        clsmethod.Description = ExclusiveTextTrivia(trivia);
                         clsmethod.MethodName = method.Identifier.Text;
+                        clsmethod.ReturnValue = method.ReturnType.ToString();
+                        clsmethod.Arguments = new ModelList<ClassParamM>();
+                        var method_params = method.ParameterList.Parameters;
+
+                        foreach (var method_param in method_params)
+                        {
+                            clsmethod.Arguments.Items.Add(
+                                new ClassParamM()
+                                { 
+                                    Description = ExclusiveTextTrivia(method_param.Identifier.LeadingTrivia.ToString()),
+                                    TypeName = method_param.Type!.ToString()!,
+                                    ValueName = method_param.Identifier.Value!.ToString()!,
+                                }
+                                );
+                        }
+
                         cls_methods.Add(clsmethod);
                     }
                     cls_tmp.MethodItems = new ModelList<ClassMethodM>(cls_methods);
