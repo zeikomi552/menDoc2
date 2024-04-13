@@ -1,0 +1,52 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:menDoc2"
+        xmlns:b="http://schemas.microsoft.com/xaml/behaviors" xmlns:ViewModels="clr-namespace:menDoc2.ViewModels" x:Class="menDoc2.MainWindow"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <ViewModels:MainWindowVM/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <DataGrid Margin="5" IsReadOnly="True" ItemsSource="{Binding FileList.Items}" SelectedItem="{Binding  FileList.SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <b:Interaction.Triggers>
+                    <b:EventTrigger EventName="SelectionChanged">
+                        <b:CallMethodAction TargetObject="{Binding}" MethodName="SelectionChanged"/>
+                    </b:EventTrigger>
+                </b:Interaction.Triggers>
+            </DataGrid>
+            <DataGrid Margin="5" DataContext="{Binding FileList.SelectedItem}" IsReadOnly="True" Grid.Column="1" ItemsSource="{Binding ClassList.Items}" SelectedItem="{Binding ClassList.SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <DataGrid Margin="5" DataContext="{Binding FileList.SelectedItem.ClassList.SelectedItem}" Grid.Column="2" IsReadOnly="True" ItemsSource="{Binding ParameterItems.Items}" SelectedItem="{Binding ParameterItems.SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGrid Grid.Row="1" Margin="5" DataContext="{Binding FileList.SelectedItem.ClassList.SelectedItem}" Grid.Column="2" IsReadOnly="True" ItemsSource="{Binding MethodItems.Items}" SelectedItem="{Binding MethodItems.SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
+
+
+        </Grid>
+        <Button Grid.Row="1" Margin="5" Width="100" Height="50" VerticalAlignment="Top" HorizontalAlignment="Left" Content="test">
+            <b:Interaction.Triggers>
+                <b:EventTrigger EventName="Click">
+                    <b:CallMethodAction TargetObject="{Binding}" MethodName="SelectDirectory"/>
+                </b:EventTrigger>
+            </b:Interaction.Triggers>
+        </Button>
+    </Grid>
+</Window>
