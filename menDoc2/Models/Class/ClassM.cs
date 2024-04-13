@@ -4,6 +4,7 @@ using MVVMCore.BaseClass;
 using MVVMCore.Common.Utilities;
 using System.Text.RegularExpressions;
 using System.Security.Cryptography.Xml;
+using Microsoft.CodeAnalysis;
 
 namespace menDoc2.Models.Class
 {
@@ -113,11 +114,11 @@ namespace menDoc2.Models.Class
         /// <summary>
         /// 変数リスト[ParameterItems]プロパティ
         /// </summary>
-        ModelList<ClassParamM>? _ParameterItems = null;
+        ModelList<ClassParamM> _ParameterItems = new ModelList<ClassParamM>();
         /// <summary>
         /// 変数リスト[ParameterItems]プロパティ
         /// </summary>
-        public ModelList<ClassParamM>? ParameterItems
+        public ModelList<ClassParamM> ParameterItems
         {
             get
             {
@@ -138,11 +139,11 @@ namespace menDoc2.Models.Class
         /// <summary>
         /// 関数リスト[MethodItems]プロパティ
         /// </summary>
-        ModelList<ClassMethodM>? _MethodItems = null;
+        ModelList<ClassMethodM> _MethodItems = new ModelList<ClassMethodM>();
         /// <summary>
         /// 関数リスト[MethodItems]プロパティ
         /// </summary>
-        public ModelList<ClassMethodM>? MethodItems
+        public ModelList<ClassMethodM> MethodItems
         {
             get
             {
@@ -159,89 +160,32 @@ namespace menDoc2.Models.Class
         }
         #endregion
 
-        private string ExclusiveTextTrivia(string trivia)
-        {
-            // コメント抜き出し
-            var match = Regex.Match(trivia, @"<summary>[\s\S]*?</summary>");
-            // 不要な文字列削除
-            return match.Value.Replace("<summary>", "").Replace("</summary>", "").Replace("\r\n", "").Replace("///", "").Replace(" ", "").Replace("\t", "");
-        }
-
-
-        #region 読込処理
+        #region 文法ツリー
         /// <summary>
-        /// 読込処理
+        /// 文法ツリー
         /// </summary>
-        public List<ClassM>? LoadCS(string filename)
+        SyntaxTree? _SynTaxTree;
+        /// <summary>
+        /// 文法ツリー
+        /// </summary>
+        public SyntaxTree? SynTaxTree
         {
-            try
+            get
             {
-                List<ClassM> classm = new List<ClassM>();
-                var text = System.IO.File.ReadAllText(filename);
-                var tree = CSharpSyntaxTree.ParseText(text);
-                var root = tree.GetCompilationUnitRoot();
-                var clss = root.DescendantNodes().OfType<ClassDeclarationSyntax>();
-                var methods = root.DescendantNodes().OfType<MethodDeclarationSyntax>();
-
-                foreach (var cls in clss)
-                {
-                    ClassM cls_tmp = new ClassM();
-                    cls_tmp.Name = cls.Identifier.Text;
-                    cls_tmp.CreateDate = DateTime.Now;
-                    cls_tmp.CreateUser = Environment.UserName;
-                    var trivia = cls.GetLeadingTrivia().ToString();
-                    cls_tmp.Description = ExclusiveTextTrivia(trivia);
-
-                    var properties = cls.DescendantNodes().OfType<PropertyDeclarationSyntax>();
-
-                    List<ClassParamM> cls_params = new List<ClassParamM>();
-                    foreach (var field in properties)
-                    {
-                        ClassParamM param = new ClassParamM();
-                        trivia = field.GetLeadingTrivia().ToString();
-                        param.TypeName = field.Type.ToString();
-                        param.ValueName = field.Identifier.Text;
-                        param.Description = ExclusiveTextTrivia(trivia);
-                        cls_params.Add(param);
-                    }
-                    cls_tmp.ParameterItems = new ModelList<ClassParamM>(cls_params);
-
-                    List<ClassMethodM> cls_methods = new List<ClassMethodM>();
-                    foreach (var method in methods)
-                    {
-                        ClassMethodM clsmethod = new ClassMethodM();
-                        trivia = method.GetLeadingTrivia().ToString();
-                        clsmethod.Description = ExclusiveTextTrivia(trivia);
-                        clsmethod.MethodName = method.Identifier.Text;
-                        clsmethod.ReturnValue = method.ReturnType.ToString();
-                        clsmethod.Arguments = new ModelList<ClassParamM>();
-                        var method_params = method.ParameterList.Parameters;
-
-                        foreach (var method_param in method_params)
-                        {
-                            clsmethod.Arguments.Items.Add(
-                                new ClassParamM()
-                                { 
-                                    Description = ExclusiveTextTrivia(method_param.Identifier.LeadingTrivia.ToString()),
-                                    TypeName = method_param.Type!.ToString()!,
-                                    ValueName = method_param.Identifier.Value!.ToString()!,
-                                }
-                                );
-                        }
-
-                        cls_methods.Add(clsmethod);
-                    }
-                    cls_tmp.MethodItems = new ModelList<ClassMethodM>(cls_methods);
-
-                    classm.Add(cls_tmp);
-                }
-                return classm;
+                return _SynTaxTree;
             }
-            catch
+            set
             {
-                return null;
+                if (_SynTaxTree == null || !_SynTaxTree.Equals(value))
+                {
+                    _SynTaxTree = value;
+                    NotifyPropertyChanged("SynTaxTree");
+                }
             }
         }
         #endregion
+
+
+
     }
 }

@@ -43,6 +43,31 @@ namespace menDoc2.ViewModels
         }
         #endregion
 
+        #region クラス図マークダウン
+        /// <summary>
+        /// クラス図マークダウン
+        /// </summary>
+        string _ClassDialgram = string.Empty;
+        /// <summary>
+        /// クラス図マークダウン
+        /// </summary>
+        public string ClassDialgram
+        {
+            get
+            {
+                return _ClassDialgram;
+            }
+            set
+            {
+                if (_ClassDialgram == null || !_ClassDialgram.Equals(value))
+                {
+                    _ClassDialgram = value;
+                    NotifyPropertyChanged("ClassDialgram");
+                }
+            }
+        }
+        #endregion
+
 
         public override void Init(object sender, EventArgs e)
         {
@@ -78,21 +103,33 @@ namespace menDoc2.ViewModels
                     foreach (var csfile in list)
                     {
                         FileM file = new FileM();
-                        file.FileName = csfile;
-
-                        ClassM cls = new ClassM();
-                        var lst = cls.LoadCS(csfile);
-
-                        if (lst == null)
-                            continue;
-
-
-                        foreach (var elem in lst)
+                        
+                        bool jogai_f = false;
+                        foreach (var jogai in file.JogaiFolder.Items)
                         {
-                            file.ClassList.Items.Add(elem);
+                            if (csfile.Contains(jogai))
+                            {
+                                jogai_f = true; 
+                                break;
+                            }
                         }
 
-                        this.FileList.Items.Add(file);
+                        if (!jogai_f)
+                        {
+                            file.FileName = csfile;
+
+                            var lst = FileM.LoadCS(csfile);
+
+                            if (lst == null)
+                                continue;
+
+
+                            foreach (var elem in lst)
+                            {
+                                file.ClassList.Items.Add(elem);
+                            }
+                            this.FileList.Items.Add(file);
+                        }
                     }
                 }
             }
@@ -135,6 +172,11 @@ namespace menDoc2.ViewModels
             // フォルダ内のファイル一覧を取得
             var fileArray = Directory.GetFiles(dir, pattern, SearchOption.AllDirectories);
             return fileArray.ToList();
+        }
+
+        public void CreateClassMd()
+        {
+            this.ClassDialgram = FileM.CreateClassMarkdown(this.FileList.Items.ToList());
         }
     }
 }
