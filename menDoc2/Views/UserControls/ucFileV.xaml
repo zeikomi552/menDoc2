@@ -32,15 +32,17 @@
             <GroupBox Margin="5" Header="対象"/>
             <GroupBox Grid.Row="1" Margin="5" Header="除外"/>
         </Grid>
-        <GroupBox Header="プレビュー" Grid.Column="1">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-                <Wpf:WebView2 Margin="5,5,5,5" x:Name="wv2" Source="{Binding TmpURI, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-            </Grid>
+        <Grid Margin="5" Grid.Column="1">
+            <GroupBox Margin="5" Header="プレビュー">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Wpf:WebView2 Margin="5,5,5,5" x:Name="wv2" Source="{Binding TmpURI, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </Grid>
 
-        </GroupBox>
+            </GroupBox>
+        </Grid>
     </Grid>
 </UserControl>
