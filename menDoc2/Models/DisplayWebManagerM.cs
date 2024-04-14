@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,14 +26,47 @@ namespace menDoc2.Models
         /// <summary>
         /// mermaid用JavaScriptのフォルダパス
         /// </summary>
-        private static string JsDirPath { get; set; } = @".\Common\js";
+        private static string JsDirPath
+        {
+            get
+            {
+                return "https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js";
+            }
+        }
         #endregion
+
+        public static string DisplayHtmlPath
+        {
+            get
+            {
+                var fv = FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location);
+                return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), fv.CompanyName!, fv.ProductName!, "Temp.html");
+            }
+        }
 
         #region HTMLコード
         /// <summary>
         /// HTMLコード
         /// </summary>
         private string BaseHtmlCode { get; set; } = string.Empty;
+        #endregion
+
+        #region 実行ファイルのカレントディレクトリを返却する
+        /// <summary>
+        /// 実行ファイルのカレントディレクトリを返却する
+        /// </summary>
+        public static string ExeCurrentDir
+        {
+            get
+            {
+                Assembly myAssembly = Assembly.GetExecutingAssembly();
+                string path = myAssembly.Location;
+                DirectoryInfo di = new DirectoryInfo(path);
+                // 親のディレクトリを取得する
+                DirectoryInfo diParent = di.Parent!;
+                return diParent.FullName;
+            }
+        }
         #endregion
 
         #region HTMLコードの取得処理
@@ -71,9 +105,7 @@ namespace menDoc2.Models
             try
             {
                 var html = GetHtml(markdown);
-                var fv = FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location);
-                var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), fv.CompanyName!, fv.ProductName!, "Temp.html");
-                File.WriteAllText(path, html);
+                File.WriteAllText(DisplayHtmlPath, html);
             }
             catch
             {

@@ -1,5 +1,6 @@
 ﻿using Markdig;
 using menDoc2.Common;
+using menDoc2.Models;
 using menDoc2.Models.Class;
 using menDoc2.Views.UserControls;
 using Microsoft.Web.WebView2.WinForms;
@@ -124,7 +125,7 @@ namespace menDoc2.ViewModels.UserControls
         {
             get
             {
-                return new Uri(TmploraryFilePath);
+                return new Uri(DisplayWebManagerM.DisplayHtmlPath);
             }
         }
         #endregion

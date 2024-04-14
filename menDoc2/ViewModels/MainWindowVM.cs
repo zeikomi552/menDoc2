@@ -1,4 +1,5 @@
 ﻿using menDoc2.Common;
+using menDoc2.Models;
 using menDoc2.Models.Class;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -178,6 +179,9 @@ namespace menDoc2.ViewModels
         public void CreateClassMd()
         {
             this.ClassDialgram = FileM.CreateClassMarkdown(this.FileList.Items.ToList());
+
+            DisplayWebManagerM disp = new DisplayWebManagerM();
+            disp.SaveHtml(this.ClassDialgram);
         }
     }
 }
