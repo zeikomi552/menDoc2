@@ -18,6 +18,9 @@ using static System.Net.WebRequestMethods;
 
 namespace menDoc2.ViewModels
 {
+    /// <summary>
+    /// メインウィンドウ用ViewModel
+    /// </summary>
     public class MainWindowVM: WebViewPrevVM
     {
         #region ファイル情報一式
