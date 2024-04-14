@@ -22,6 +22,11 @@
         </Grid.RowDefinitions>
 
         <TabControl>
+            <TabItem Header="ファイル">
+                <Grid>
+                    <UserControls:ucFileV/>
+                </Grid>
+            </TabItem>
             <TabItem Header="メイン">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -67,11 +72,7 @@
 
                 </Grid>
             </TabItem>
-            <TabItem Header="ファイル">
-                <Grid>
-                    <UserControls:ucFileV/>
-                </Grid>
-            </TabItem>
+
         </TabControl>
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <Button Margin="5" Width="100" Height="50" VerticalAlignment="Top" HorizontalAlignment="Left" Content="test">

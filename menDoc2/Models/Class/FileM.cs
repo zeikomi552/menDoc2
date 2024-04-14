@@ -9,43 +9,54 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis;
+using System.IO;
 
 namespace menDoc2.Models.Class
 {
     public class FileM : ModelBase
     {
+        #region コンストラクタ
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
         public FileM()
         {
-            this.JogaiFolder.Items.Add(@"\.git\");
-            this.JogaiFolder.Items.Add(@"\.vs\");
-            this.JogaiFolder.Items.Add(@"\.git\");
-            this.JogaiFolder.Items.Add(@"\bin\");
-            this.JogaiFolder.Items.Add(@"\obj\");
         }
+        #endregion
+
         #region ファイル名
         /// <summary>
         /// ファイル名
         /// </summary>
-        string _FileName = string.Empty;
+        string _FilePath = string.Empty;
         /// <summary>
         /// ファイル名
         /// </summary>
-        public string FileName
+        public string FilePath
         {
             get
             {
-                return _FileName;
+                return _FilePath;
             }
             set
             {
-                if (_FileName == null || !_FileName.Equals(value))
+                if (_FilePath == null || !_FilePath.Equals(value))
                 {
-                    _FileName = value;
+                    _FilePath = value;
+                    NotifyPropertyChanged("FilePath");
                     NotifyPropertyChanged("FileName");
                 }
             }
         }
         #endregion
+
+        public string FileName
+        {
+            get
+            {
+                return Path.GetFileName(this.FilePath);
+            }
+        }
 
         #region Class要素を保持するオブジェクト
         /// <summary>
@@ -72,30 +83,7 @@ namespace menDoc2.Models.Class
         }
         #endregion
 
-        #region 除外フォルダリスト
-        /// <summary>
-        /// 除外フォルダリスト
-        /// </summary>
-        ModelList<string> _JogaiFolder = new ModelList<string>();
-        /// <summary>
-        /// 除外フォルダリスト
-        /// </summary>
-        public ModelList<string> JogaiFolder
-        {
-            get
-            {
-                return _JogaiFolder;
-            }
-            set
-            {
-                if (_JogaiFolder == null || !_JogaiFolder.Equals(value))
-                {
-                    _JogaiFolder = value;
-                    NotifyPropertyChanged("JogaiFolder");
-                }
-            }
-        }
-        #endregion
+
 
         #region クラス図用マークダウンファイルの作成
         /// <summary>

@@ -32,13 +32,13 @@ namespace menDoc2.ViewModels.UserControls
         {
             get
             {
-                return GblValues.Instance.FileList;
+                return GblValues.Instance.FileCollection.FileList;
             }
             set
             {
-                if (GblValues.Instance.FileList == null || !GblValues.Instance.FileList.Equals(value))
+                if (GblValues.Instance.FileCollection.FileList == null || !GblValues.Instance.FileCollection.FileList.Equals(value))
                 {
-                    GblValues.Instance.FileList = value;
+                    GblValues.Instance.FileCollection.FileList = value;
                     NotifyPropertyChanged("FileList");
                 }
             }
@@ -230,7 +230,7 @@ namespace menDoc2.ViewModels.UserControls
 
                 foreach (var tmp in this.FileList.Items)
                 {
-                    sb.AppendLine(Path.GetFileName(tmp.FileName.ToString()));
+                    sb.AppendLine(Path.GetFileName(tmp.FilePath.ToString()));
                 }
                 this.Markdown = sb.ToString();
             }
@@ -263,39 +263,5 @@ namespace menDoc2.ViewModels.UserControls
 
         }
         #endregion
-
-
-
-        //#region テンポラリデータの保存処理
-        ///// <summary>
-        ///// テンポラリデータの保存処理
-        ///// </summary>
-        ///// <returns>保存処理</returns>
-        //public string SaveTemporary()
-        //{
-        //    try
-        //    {
-        //        // UTF-8
-        //        StreamReader html_sr = new StreamReader(ClassDiagramPath.OutputHtmlTmpletePath, Encoding.UTF8);
-        //        string tmp = ClassDiagramPath.OutputHtmlTmpletePath;
-        //        // テンプレートファイル読み出し
-        //        string html_txt = html_sr.ReadToEnd();
-
-        //        html_txt = html_txt.Replace("{menDoc:jsdir}", Utilities.JSDir);
-        //        html_txt = html_txt.Replace("{menDoc:htmlbody}", this.Html);
-        //        File.WriteAllText(ClassDiagramPath.TmploraryFilePath, html_txt);
-
-        //        // 一時フォルダの作成
-        //        Utilities.CreateTemporaryDir();
-
-        //        return ClassDiagramPath.TmploraryFilePath;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        ShowMessage.ShowErrorOK(e.Message, "Error");
-        //        return string.Empty;
-        //    }
-        //}
-        //#endregion
     }
 }
