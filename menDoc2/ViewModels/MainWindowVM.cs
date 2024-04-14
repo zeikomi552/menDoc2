@@ -108,7 +108,7 @@ namespace menDoc2.ViewModels
                     }
 
 
-                    var list = GetFileList(cofd.FileName, "*.cs");
+                    var list = GetFileList(cofd.FileName, "*.*");
 
                     foreach (var csfile in list)
                     {

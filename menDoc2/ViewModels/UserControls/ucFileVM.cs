@@ -96,11 +96,19 @@ namespace menDoc2.ViewModels.UserControls
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine("## ファイル一覧");
 
+
+                sb.AppendLine("|ファイル名|作成日時|更新日時|サイズ(Byte)|");
+                sb.AppendLine("|---|---|---|---|");
                 foreach (var tmp in this.FileCollection.FileList.Items)
                 {
                     //FileInfoを生成する
-                    string path = Path.GetFileName(tmp.FilePath.ToString());
-                    sb.AppendLine("- " + path);
+                    string filename = Path.GetFileName(tmp.FilePath.ToString());
+                    var datetm = File.GetCreationTime(tmp.FilePath.ToString());
+                    var renewdt = File.GetLastWriteTime(tmp.FilePath.ToString());
+
+                    System.IO.FileInfo fi = new System.IO.FileInfo(tmp.FilePath.ToString());
+
+                    sb.AppendLine($"|{filename}|{datetm.ToString("yyyy/MM/dd HH:mm:ss")}|{renewdt.ToString("yyyy/MM/dd HH:mm:ss")}|{fi.Length}|");
                 }
 
                 return sb.ToString();
