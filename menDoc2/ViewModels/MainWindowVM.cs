@@ -24,10 +24,6 @@ namespace menDoc2.ViewModels
         /// <summary>
         /// ファイル情報一式
         /// </summary>
-        FileCollectionM _FileCollection = new FileCollectionM();
-        /// <summary>
-        /// ファイル情報一式
-        /// </summary>
         public FileCollectionM FileCollection
         {
             get
@@ -87,7 +83,10 @@ namespace menDoc2.ViewModels
             
         }
 
-
+        #region フォルダの選択処理
+        /// <summary>
+        /// フォルダの選択処理
+        /// </summary>
         public void SelectDirectory()
         {
             try
@@ -141,12 +140,18 @@ namespace menDoc2.ViewModels
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-
+                _logger.Error(ex.Message);
+                ShowMessage.ShowErrorOK(ex.Message, "Error");
             }
         }
+        #endregion
 
+        #region 選択行が変化した場合の処理
+        /// <summary>
+        /// 選択行が変化した場合の処理
+        /// </summary>
         public void SelectionChanged()
         {
             try
@@ -169,26 +174,27 @@ namespace menDoc2.ViewModels
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-
+                _logger.Error(ex.Message);
+                ShowMessage.ShowErrorOK(ex.Message, "Error");
             }
         }
+        #endregion
 
-
+        #region ファイルリスト一覧取得
+        /// <summary>
+        /// ファイルリスト一覧取得
+        /// </summary>
+        /// <param name="dir">ディレクトリ</param>
+        /// <param name="pattern">ファイルパターン</param>
+        /// <returns>ファイルリスト一覧</returns>
         List<string> GetFileList(string dir, string pattern)
         {
             // フォルダ内のファイル一覧を取得
             var fileArray = Directory.GetFiles(dir, pattern, SearchOption.AllDirectories);
             return fileArray.ToList();
         }
-
-        public void CreateClassMd()
-        {
-            this.ClassDialgram = FileM.CreateClassMarkdown(this.FileCollection.FileList.Items.ToList());
-
-            DisplayWebManagerM disp = new DisplayWebManagerM();
-            disp.SaveHtml(this.ClassDialgram);
-        }
+        #endregion
     }
 }

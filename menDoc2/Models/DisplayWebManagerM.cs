@@ -35,13 +35,15 @@ namespace menDoc2.Models
         }
         #endregion
 
-        public static string DisplayHtmlPath
+        /// <summary>
+        /// WebView2に表示するためのHTMLファイル出力先パスを作成する関数
+        /// </summary>
+        /// <param name="tmpfilename">ファイル名</param>
+        /// <returns>ファイルパス</returns>
+        public static string GetDisplayHtmlPath(string tmpfilename)
         {
-            get
-            {
-                var fv = FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location);
-                return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), fv.CompanyName!, fv.ProductName!, "Temp.html");
-            }
+            var fv = FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), fv.CompanyName!, fv.ProductName!, tmpfilename);
         }
 
         #region HTMLコード
@@ -100,12 +102,12 @@ namespace menDoc2.Models
         /// HTMLファイルの保存処理
         /// </summary>
         /// <param name="markdown">マークダウン文字列</param>
-        public void SaveHtml(string markdown)
+        public void SaveHtml(string markdown, string filename)
         {
             try
             {
                 var html = GetHtml(markdown);
-                File.WriteAllText(DisplayHtmlPath, html);
+                File.WriteAllText(GetDisplayHtmlPath(filename), html);
             }
             catch
             {

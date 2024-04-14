@@ -24,103 +24,6 @@ namespace menDoc2.ViewModels.UserControls
     /// </summary>
     public class ucFileVM : ucBaseVM
     {
-        #region ファイル情報一式
-        /// <summary>
-        /// ファイル情報一式
-        /// </summary>
-        FileCollectionM _FileCollection = new FileCollectionM();
-        /// <summary>
-        /// ファイル情報一式
-        /// </summary>
-        public FileCollectionM FileCollection
-        {
-            get
-            {
-                return GblValues.Instance.FileCollection;
-            }
-            set
-            {
-                if (GblValues.Instance.FileCollection == null || !GblValues.Instance.FileCollection.Equals(value))
-                {
-                    GblValues.Instance.FileCollection = value;
-                    NotifyPropertyChanged("FileCollection");
-                }
-            }
-        }
-        #endregion
-
-        #region マークダウン文字列
-        /// <summary>
-        /// マークダウン文字列
-        /// </summary>
-        string _Markdown = string.Empty;
-        /// <summary>
-        /// マークダウン文字列
-        /// </summary>
-        public string Markdown
-        {
-            get
-            {
-                return _Markdown;
-            }
-            set
-            {
-                if (_Markdown == null || !_Markdown.Equals(value))
-                {
-                    _Markdown = value;
-                    NotifyPropertyChanged("Markdown");
-                }
-            }
-        }
-        #endregion
-
-        #region HTML文字列
-        /// <summary>
-        /// HTML文字列
-        /// </summary>
-        string _Html = string.Empty;
-        /// <summary>
-        /// HTML文字列
-        /// </summary>
-        public string Html
-        {
-            get
-            {
-                return _Html;
-            }
-            set
-            {
-                if (_Html == null || !_Html.Equals(value))
-                {
-                    _Html = value;
-                    NotifyPropertyChanged("Html");
-                }
-            }
-        }
-        #endregion
-
-        #region 一時ファイル名
-        /// <summary>
-        /// 一時ファイル名
-        /// </summary>
-        public const string TmploraryFileName = "FileInformationHtml.html";
-        #endregion
-
-        #region 一時ファイルのパス
-        /// <summary>
-        /// 一時ファイルのパス
-        /// </summary>
-        public static string TmploraryFilePath
-        {
-            get
-            {
-                var fv = FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location);
-                var dir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), fv.CompanyName!, fv.ProductName!, @"Temporary");
-                return Path.Combine(dir, TmploraryFileName);
-            }
-        }
-        #endregion
-
         #region 一時ファイルのURI
         /// <summary>
         /// 一時ファイルのURI
@@ -129,7 +32,7 @@ namespace menDoc2.ViewModels.UserControls
         {
             get
             {
-                return new Uri(DisplayWebManagerM.DisplayHtmlPath);
+                return new Uri(DisplayWebManagerM.GetDisplayHtmlPath("filelist.html"));
             }
         }
         #endregion
@@ -225,7 +128,7 @@ namespace menDoc2.ViewModels.UserControls
         /// <summary>
         /// マークダウンの作成
         /// </summary>
-        public void CreateMarkdown()
+        protected override string CreateMarkdown()
         {
             try
             {
@@ -236,35 +139,15 @@ namespace menDoc2.ViewModels.UserControls
                 {
                     sb.AppendLine(Path.GetFileName(tmp.FilePath.ToString()));
                 }
-                this.Markdown = sb.ToString();
+
+                return sb.ToString();
             }
             catch (Exception ex)
             {
                 _logger.Error(ex.Message);
                 ShowMessage.ShowErrorOK(ex.Message, "Error");
-                this.Markdown = string.Empty;
+                return string.Empty;
             }
-        }
-        #endregion
-
-        #region HTML文の作成
-        /// <summary>
-        /// HTML文の作成
-        /// </summary>
-        public void ConvetHtml()
-        {
-            try
-            {
-                var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
-                this.Html = Markdig.Markdown.ToHtml(this.Markdown, pipeline);
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex.Message);
-                ShowMessage.ShowErrorOK(ex.Message, "Error");
-                this.Html = string.Empty;
-            }
-
         }
         #endregion
     }
