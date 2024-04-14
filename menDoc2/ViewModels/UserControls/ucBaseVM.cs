@@ -2,11 +2,13 @@
 using menDoc2.Common;
 using menDoc2.Models;
 using menDoc2.Models.Class;
+using Microsoft.Web.WebView2.Wpf;
 using MVVMCore.BaseClass;
 using MVVMCore.Common.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,26 +27,94 @@ namespace menDoc2.ViewModels.UserControls
         }
         #endregion
 
-        #region コンストラクタ
+        #region ベースとなるHTMLコードの保存場所
         /// <summary>
-        /// コンストラクタ
+        /// ベースとなるHTMLコードの保存場所
         /// </summary>
-        /// <param name="filename">ファイル名</param>
-        public ucBaseVM(string filename)
-        {
-            this.OutFilename = filename;
-        }
+        public static string BaseHtml { get; set; } = @".\Common\Templete\HtmlCode\BaseHtml.mdtmpl";
         #endregion
 
+        #region mermaid用JavaScriptのフォルダパス
+        /// <summary>
+        /// mermaid用JavaScriptのフォルダパス
+        /// </summary>
+        private static string JsDirPath
+        {
+            get
+            {
+                return "https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js";
+            }
+        }
+        #endregion
         /// <summary>
         /// ロガー
         /// </summary>
         protected static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod()!.DeclaringType);
 
+        #region WebView2用オブジェクト[WebviewObject]プロパティ
+        /// <summary>
+        /// WebView2用オブジェクト[WebviewObject]プロパティ用変数
+        /// </summary>
+        WebView2? _WebviewObject = null;
+        /// <summary>
+        /// WebView2用オブジェクト[WebviewObject]プロパティ
+        /// </summary>
+        public WebView2? WebviewObject
+        {
+            get
+            {
+                return _WebviewObject;
+            }
+            set
+            {
+                if (_WebviewObject == null || !_WebviewObject.Equals(value))
+                {
+                    _WebviewObject = value;
+                }
+            }
+        }
+        #endregion
+
+        #region リロード処理
+        /// <summary>
+        /// リロード処理
+        /// </summary>
+        private void WebViewReload()
+        {
+            if (this.WebviewObject != null)
+            {
+                SetMarkdown();
+                this.WebviewObject.Reload();
+                NotifyPropertyChanged("HtmlPath");
+            }
+        }
+        #endregion
+
+        #region HTMLファイルの出力先ファイル名
         /// <summary>
         /// HTMLファイルの出力先ファイル名
         /// </summary>
-        public virtual string OutFilename { get; } = "sample.html";
+        protected virtual string OutFilename
+        {
+            get
+            {
+                return "sample.html";
+            }
+        }
+        #endregion
+
+        #region HTMLパス
+        /// <summary>
+        /// HTMLパス
+        /// </summary>
+        public string HtmlPath
+        {
+            get
+            {
+                return GetHtmlPath();
+            }
+        }
+        #endregion
 
         #region ファイル情報一式
         /// <summary>
@@ -152,12 +222,39 @@ namespace menDoc2.ViewModels.UserControls
         }
         #endregion
 
+        #region HTMLコードの取得処理
+        /// <summary>
+        /// HTMLコードの取得処理
+        /// </summary>
+        /// <param name="markdown">マークダウン文字列</param>
+        /// <returns>HTMLコード</returns>
+        public string GetHtml(string markdown)
+        {
+            try
+            {
+                // テンプレートファイルの読み込み
+                StreamReader html_sr = new StreamReader(BaseHtml, Encoding.UTF8);
+                this.Html = html_sr.ReadToEnd();
+
+                var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
+                var html = Markdig.Markdown.ToHtml(markdown, pipeline);
+                var html_txt = this.Html.Replace("{menDoc:jsdir}", JsDirPath);
+                return html_txt.Replace("{menDoc:htmlbody}", html);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        #endregion
+
         #region HTMLファイルを所定の場所に保存する関数
         /// <summary>
         /// HTMLファイルを所定の場所に保存する関数
         /// </summary>
         public void SaveHtml()
         {
+            SetMarkdown();
             DisplayWebManagerM disp = new DisplayWebManagerM();
             disp.SaveHtml(this.Markdown, DisplayWebManagerM.GetDisplayHtmlPath(this.OutFilename));
         }
@@ -174,9 +271,25 @@ namespace menDoc2.ViewModels.UserControls
 
             // マークダウンのセット
             this.Markdown = markdown;
+        }
+
+        /// <summary>
+        /// リロード処理
+        /// </summary>
+        public void Reload()
+        {
+            // マークダウンのセット処理
+            SetMarkdown();
+
 
             // HTMLへの変換
             ConvetHtml(this.Markdown);
+
+            // HTMLファイルの保存
+            SaveHtml();
+
+            // WebView2 Reload
+            WebViewReload();
         }
 
         #region HTML文の作成
@@ -188,8 +301,7 @@ namespace menDoc2.ViewModels.UserControls
         {
             try
             {
-                var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
-                this.Html = Markdig.Markdown.ToHtml(markdown, pipeline);
+                this.Html = GetHtml(markdown);
             }
             catch (Exception ex)
             {

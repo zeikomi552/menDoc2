@@ -24,42 +24,15 @@ namespace menDoc2.ViewModels.UserControls
     /// </summary>
     public class ucFileVM : ucBaseVM
     {
-        #region 一時ファイルのURI
         /// <summary>
-        /// 一時ファイルのURI
+        /// HTMLファイルの出力先ファイル名
         /// </summary>
-        public Uri TmpURI
+        protected override string OutFilename
         {
-            get
-            {
-                return new Uri(DisplayWebManagerM.GetDisplayHtmlPath("filelist.html"));
-            }
+            get { return "filelist.html"; }
         }
-        #endregion
 
-        #region WebView2用オブジェクト[WebviewObject]プロパティ
-        /// <summary>
-        /// WebView2用オブジェクト[WebviewObject]プロパティ用変数
-        /// </summary>
-        WebView2? _WebviewObject = null;
-        /// <summary>
-        /// WebView2用オブジェクト[WebviewObject]プロパティ
-        /// </summary>
-        public WebView2? WebviewObject
-        {
-            get
-            {
-                return _WebviewObject;
-            }
-            set
-            {
-                if (_WebviewObject == null || !_WebviewObject.Equals(value))
-                {
-                    _WebviewObject = value;
-                }
-            }
-        }
-        #endregion
+
 
         #region 画面初期化処理
         /// <summary>
@@ -110,19 +83,7 @@ namespace menDoc2.ViewModels.UserControls
         }
         #endregion
 
-        #region リロード処理
-        /// <summary>
-        /// リロード処理
-        /// </summary>
-        public void WebViewReload()
-        {
-            if (this.WebviewObject != null)
-            {
-                this.WebviewObject.Reload();
-                NotifyPropertyChanged("TmpURI");
-            }
-        }
-        #endregion
+
 
         #region マークダウンの作成
         /// <summary>
@@ -137,7 +98,9 @@ namespace menDoc2.ViewModels.UserControls
 
                 foreach (var tmp in this.FileCollection.FileList.Items)
                 {
-                    sb.AppendLine(Path.GetFileName(tmp.FilePath.ToString()));
+                    //FileInfoを生成する
+                    string path = Path.GetFileName(tmp.FilePath.ToString());
+                    sb.AppendLine("- " + path);
                 }
 
                 return sb.ToString();
