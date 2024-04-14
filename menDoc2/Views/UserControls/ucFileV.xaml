@@ -29,8 +29,24 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <GroupBox Margin="5" Header="対象"/>
-            <GroupBox Grid.Row="1" Margin="5" Header="除外"/>
+            <TabControl>
+                <TabItem Header="一覧">
+                    <DataGrid IsReadOnly="True" AutoGenerateColumns="False" ItemsSource="{Binding FileList.Items}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="FileName" Binding="{Binding FileName}"/>
+                            <DataGridTextColumn Header="FilePath" Binding="{Binding FilePath}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+                <TabItem Header="除外フォルダ">
+                    <DataGrid IsReadOnly="True" AutoGenerateColumns="False" ItemsSource="{Binding}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="FileName" Binding="{Binding FileName}"/>
+                            <DataGridTextColumn Header="FilePath" Binding="{Binding FilePath}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+            </TabControl>
         </Grid>
         <Grid Margin="5" Grid.Column="1">
             <GroupBox Margin="5" Header="プレビュー">
@@ -41,7 +57,6 @@
                     </Grid.RowDefinitions>
                     <Wpf:WebView2 Margin="5,5,5,5" x:Name="wv2" Source="{Binding TmpURI, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
-
             </GroupBox>
         </Grid>
     </Grid>

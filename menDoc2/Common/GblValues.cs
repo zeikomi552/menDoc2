@@ -36,29 +36,31 @@ namespace menDoc2.Common
         }
         #endregion
 
-        #region ファイルのリスト
+        #region ファイル情報一式
         /// <summary>
-        /// ファイルのリスト
+        /// ファイル情報一式
         /// </summary>
-        ModelList<FileM> _FileList = new ModelList<FileM>();
+        FileCollectionM _FileCollection = new FileCollectionM();
         /// <summary>
-        /// ファイルのリスト
+        /// ファイル情報一式
         /// </summary>
-        public ModelList<FileM> FileList
+        public FileCollectionM FileCollection
         {
             get
             {
-                return _FileList;
+                return _FileCollection;
             }
             set
             {
-                if (_FileList == null || !_FileList.Equals(value))
+                if (_FileCollection == null || !_FileCollection.Equals(value))
                 {
-                    _FileList = value;
+                    _FileCollection = value;
                 }
             }
         }
         #endregion
+
+
 
 
     }

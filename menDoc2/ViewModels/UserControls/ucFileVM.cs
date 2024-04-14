@@ -24,22 +24,26 @@ namespace menDoc2.ViewModels.UserControls
     /// </summary>
     public class ucFileVM : ucBaseVM
     {
-        #region ファイルのリスト
+        #region ファイル情報一式
         /// <summary>
-        /// ファイルのリスト
+        /// ファイル情報一式
         /// </summary>
-        public ModelList<FileM> FileList
+        FileCollectionM _FileCollection = new FileCollectionM();
+        /// <summary>
+        /// ファイル情報一式
+        /// </summary>
+        public FileCollectionM FileCollection
         {
             get
             {
-                return GblValues.Instance.FileList;
+                return GblValues.Instance.FileCollection;
             }
             set
             {
-                if (GblValues.Instance.FileList == null || !GblValues.Instance.FileList.Equals(value))
+                if (GblValues.Instance.FileCollection == null || !GblValues.Instance.FileCollection.Equals(value))
                 {
-                    GblValues.Instance.FileList = value;
-                    NotifyPropertyChanged("FileList");
+                    GblValues.Instance.FileCollection = value;
+                    NotifyPropertyChanged("FileCollection");
                 }
             }
         }
@@ -228,9 +232,9 @@ namespace menDoc2.ViewModels.UserControls
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine("## ファイル一覧");
 
-                foreach (var tmp in this.FileList.Items)
+                foreach (var tmp in this.FileCollection.FileList.Items)
                 {
-                    sb.AppendLine(Path.GetFileName(tmp.FileName.ToString()));
+                    sb.AppendLine(Path.GetFileName(tmp.FilePath.ToString()));
                 }
                 this.Markdown = sb.ToString();
             }
@@ -263,39 +267,5 @@ namespace menDoc2.ViewModels.UserControls
 
         }
         #endregion
-
-
-
-        //#region テンポラリデータの保存処理
-        ///// <summary>
-        ///// テンポラリデータの保存処理
-        ///// </summary>
-        ///// <returns>保存処理</returns>
-        //public string SaveTemporary()
-        //{
-        //    try
-        //    {
-        //        // UTF-8
-        //        StreamReader html_sr = new StreamReader(ClassDiagramPath.OutputHtmlTmpletePath, Encoding.UTF8);
-        //        string tmp = ClassDiagramPath.OutputHtmlTmpletePath;
-        //        // テンプレートファイル読み出し
-        //        string html_txt = html_sr.ReadToEnd();
-
-        //        html_txt = html_txt.Replace("{menDoc:jsdir}", Utilities.JSDir);
-        //        html_txt = html_txt.Replace("{menDoc:htmlbody}", this.Html);
-        //        File.WriteAllText(ClassDiagramPath.TmploraryFilePath, html_txt);
-
-        //        // 一時フォルダの作成
-        //        Utilities.CreateTemporaryDir();
-
-        //        return ClassDiagramPath.TmploraryFilePath;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        ShowMessage.ShowErrorOK(e.Message, "Error");
-        //        return string.Empty;
-        //    }
-        //}
-        //#endregion
     }
 }

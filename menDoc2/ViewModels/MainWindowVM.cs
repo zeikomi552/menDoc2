@@ -20,26 +20,32 @@ namespace menDoc2.ViewModels
 {
     public class MainWindowVM: WebViewPrevVM
     {
-        #region ファイルのリスト
+        #region ファイル情報一式
         /// <summary>
-        /// ファイルのリスト
+        /// ファイル情報一式
         /// </summary>
-        public ModelList<FileM> FileList
+        FileCollectionM _FileCollection = new FileCollectionM();
+        /// <summary>
+        /// ファイル情報一式
+        /// </summary>
+        public FileCollectionM FileCollection
         {
             get
             {
-                return GblValues.Instance.FileList;
+                return GblValues.Instance.FileCollection;
             }
             set
             {
-                if (GblValues.Instance.FileList == null || !GblValues.Instance.FileList.Equals(value))
+                if (GblValues.Instance.FileCollection == null || !GblValues.Instance.FileCollection.Equals(value))
                 {
-                    GblValues.Instance.FileList = value;
-                    NotifyPropertyChanged("FileList");
+                    GblValues.Instance.FileCollection = value;
+                    NotifyPropertyChanged("FileCollection");
                 }
             }
         }
         #endregion
+
+
 
         #region クラス図マークダウン
         /// <summary>
@@ -107,7 +113,7 @@ namespace menDoc2.ViewModels
                         FileM file = new FileM();
                         
                         bool jogai_f = false;
-                        foreach (var jogai in file.JogaiFolder.Items)
+                        foreach (var jogai in this.FileCollection.JogaiFolder.Items)
                         {
                             if (csfile.Contains(jogai))
                             {
@@ -118,7 +124,7 @@ namespace menDoc2.ViewModels
 
                         if (!jogai_f)
                         {
-                            file.FileName = csfile;
+                            file.FilePath = csfile;
 
                             var lst = FileM.LoadCS(csfile);
 
@@ -130,7 +136,7 @@ namespace menDoc2.ViewModels
                             {
                                 file.ClassList.Items.Add(elem);
                             }
-                            this.FileList.Items.Add(file);
+                            this.FileCollection.FileList.Items.Add(file);
                         }
                     }
                 }
@@ -145,20 +151,21 @@ namespace menDoc2.ViewModels
         {
             try
             {
-                this.FileList.SelectedItem.ClassList.SelectedFirst();
+                var filelist = GblValues.Instance.FileCollection.FileList;
+                filelist.SelectedItem.ClassList.SelectedFirst();
 
-                if (this.FileList.SelectedItem != null 
-                    && this.FileList.SelectedItem.ClassList != null
-                    && this.FileList.SelectedItem.ClassList.SelectedItem != null 
-                    && this.FileList.SelectedItem.ClassList.SelectedItem.ParameterItems != null)
+                if (filelist.SelectedItem != null 
+                    && filelist.SelectedItem.ClassList != null
+                    && filelist.SelectedItem.ClassList.SelectedItem != null 
+                    && filelist.SelectedItem.ClassList.SelectedItem.ParameterItems != null)
                 {
-                    if (this.FileList.SelectedItem.ClassList.SelectedItem.ParameterItems != null)
+                    if (filelist.SelectedItem.ClassList.SelectedItem.ParameterItems != null)
                     {
-                        this.FileList.SelectedItem.ClassList.SelectedItem.ParameterItems!.SelectedFirst();
+                        filelist.SelectedItem.ClassList.SelectedItem.ParameterItems!.SelectedFirst();
                     }
-                    if (this.FileList.SelectedItem.ClassList.SelectedItem.MethodItems != null)
+                    if (filelist.SelectedItem.ClassList.SelectedItem.MethodItems != null)
                     {
-                        this.FileList.SelectedItem.ClassList.SelectedItem.MethodItems!.SelectedFirst();
+                        filelist.SelectedItem.ClassList.SelectedItem.MethodItems!.SelectedFirst();
                     }
                 }
             }
@@ -178,7 +185,7 @@ namespace menDoc2.ViewModels
 
         public void CreateClassMd()
         {
-            this.ClassDialgram = FileM.CreateClassMarkdown(this.FileList.Items.ToList());
+            this.ClassDialgram = FileM.CreateClassMarkdown(this.FileCollection.FileList.Items.ToList());
 
             DisplayWebManagerM disp = new DisplayWebManagerM();
             disp.SaveHtml(this.ClassDialgram);
