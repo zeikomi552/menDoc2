@@ -1,18 +1,68 @@
-﻿<UserControl x:Class="menDoc2.Views.UserControls.ucClassV"
+﻿<UserControl
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Wpf="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors" 
              xmlns:local="clr-namespace:menDoc2.Views.UserControls"
+             xmlns:UserControls="clr-namespace:menDoc2.ViewModels.UserControls" x:Class="menDoc2.Views.UserControls.ucClassV"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <UserControls:ucClassVM/>
+    </UserControl.DataContext>
+    <b:Interaction.Triggers>
+        <b:EventTrigger>
+            <b:CallMethodAction TargetObject="{Binding}" MethodName="Init"/>
+        </b:EventTrigger>
+    </b:Interaction.Triggers>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="73*"/>
-            <ColumnDefinition Width="87*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <DataGrid>
-            
-        </DataGrid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <GroupBox Header="ファイル一覧">
+                <DataGrid Margin="5,5,5,5" ItemsSource="{Binding FileCollection.FileList.Items}" SelectedItem="{Binding FileCollection.FileList.SelectedItem}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ファイル名" Binding="{Binding FileName}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+            <GroupBox Header="クラス一覧" Grid.Row="1">
+                <DataGrid Margin="5,5,5,5" ItemsSource="{Binding FileCollection.FileList.SelectedItem.ClassList.Items}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ファイル名" Binding="{Binding Name}"/>
+                        <DataGridTextColumn Header="作成日" Binding="{Binding CreateDate}"/>
+                        <DataGridTextColumn Header="作成者" Binding="{Binding CreateUser}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+        </Grid>
+        <Grid Margin="5" Grid.Column="1">
+            <GroupBox Margin="5" Header="プレビュー">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Wpf:WebView2 Margin="5,5,5,5" x:Name="wv2" Source="{Binding HtmlPath, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <Button Margin="5" Width="100" Content="更新">
+                            <b:Interaction.Triggers>
+                                <b:EventTrigger EventName="Click">
+                                    <b:CallMethodAction TargetObject="{Binding}" MethodName="Reload"/>
+                                </b:EventTrigger>
+                            </b:Interaction.Triggers>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
+        </Grid>
     </Grid>
 </UserControl>

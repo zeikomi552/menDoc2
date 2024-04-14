@@ -55,24 +55,8 @@
                 </Grid>
             </TabItem>
             <TabItem Header="マークダウン">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBox Margin="5" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Text="{Binding ClassDialgram}"/>
-
-                    <Wpf:WebView2 Margin="5" Grid.Column="1">
-                        <b:Interaction.Triggers>
-                            <b:EventTrigger EventName="Loaded">
-                                <b:CallMethodAction TargetObject="{Binding}" MethodName="SetWebViewObject"/>
-                            </b:EventTrigger>
-                        </b:Interaction.Triggers>
-                    </Wpf:WebView2>
-
-                </Grid>
+                <UserControls:ucClassV/>
             </TabItem>
-
         </TabControl>
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <Button Margin="5" Width="100" Height="50" VerticalAlignment="Top" HorizontalAlignment="Left" Content="フォルダ選択">

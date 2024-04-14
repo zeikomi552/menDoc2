@@ -1,6 +1,8 @@
 ﻿using menDoc2.Common;
 using menDoc2.Models.Class;
+using menDoc2.Views.UserControls;
 using MVVMCore.Common.Utilities;
+using MVVMCore.Common.Wrapper;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,6 +14,40 @@ namespace menDoc2.ViewModels.UserControls
 {
     public class ucClassVM : ucBaseVM
     {
+        #region HTMLファイルの出力先ファイル名
+        /// <summary>
+        /// HTMLファイルの出力先ファイル名
+        /// </summary>
+        protected override string OutFilename
+        {
+            get { return "classdiagram.html"; }
+        }
+        #endregion
+
+        #region 画面初期化処理
+        /// <summary>
+        /// 画面初期化処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public override void Init(object sender, EventArgs e)
+        {
+            try
+            {
+                var tmp = VisualTreeHelperWrapper.GetWindow<ucClassV>(sender) as ucClassV;
+
+                if (tmp != null)
+                {
+                    SetWebviewObject(tmp.wv2);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                ShowMessage.ShowErrorOK(ex.Message, "Error");
+            }
+        }
+        #endregion
 
         #region マークダウンの作成
         /// <summary>
