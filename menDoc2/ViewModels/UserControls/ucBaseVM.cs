@@ -2,9 +2,11 @@
 using menDoc2.Common;
 using menDoc2.Models;
 using menDoc2.Models.Class;
+using menDoc2.Views.UserControls;
 using Microsoft.Web.WebView2.Wpf;
 using MVVMCore.BaseClass;
 using MVVMCore.Common.Utilities;
+using MVVMCore.Common.Wrapper;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -187,15 +189,53 @@ namespace menDoc2.ViewModels.UserControls
         }
         #endregion
 
-        #region 初期化処理
+
+        #region WebViewObjectのセット
         /// <summary>
-        /// 初期化処理
+        /// WebViewObjectのセット
+        /// </summary>
+        /// <param name="webview"></param>
+        async public void SetWebviewObject(WebView2 webview)
+        {
+            try
+            {
+                if (this.WebviewObject == null)
+                {
+                    this.WebviewObject = webview;
+                    await webview.EnsureCoreWebView2Async(null);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                ShowMessage.ShowErrorOK(ex.Message, "Error");
+            }
+
+        }
+        #endregion
+
+        #region 画面初期化処理
+        /// <summary>
+        /// 画面初期化処理
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         public override void Init(object sender, EventArgs e)
         {
-            
+            try
+            {
+                var tmp = VisualTreeHelperWrapper.GetWindow<ucFileV>(sender) as ucFileV;
+
+                if (tmp != null)
+                {
+                    SetWebviewObject(tmp.wv2);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                ShowMessage.ShowErrorOK(ex.Message, "Error");
+            }
         }
         #endregion
 

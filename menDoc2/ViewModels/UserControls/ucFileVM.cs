@@ -24,6 +24,7 @@ namespace menDoc2.ViewModels.UserControls
     /// </summary>
     public class ucFileVM : ucBaseVM
     {
+        #region HTMLファイルの出力先ファイル名
         /// <summary>
         /// HTMLファイルの出力先ファイル名
         /// </summary>
@@ -31,59 +32,7 @@ namespace menDoc2.ViewModels.UserControls
         {
             get { return "filelist.html"; }
         }
-
-
-
-        #region 画面初期化処理
-        /// <summary>
-        /// 画面初期化処理
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public override void Init(object sender, EventArgs e)
-        {
-            try
-            {
-                var tmp = VisualTreeHelperWrapper.GetWindow<ucFileV>(sender) as ucFileV;
-
-                if (tmp != null)
-                {
-                    SetWebviewObject(tmp.wv2);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex.Message);
-                ShowMessage.ShowErrorOK(ex.Message, "Error");
-            }
-        }
         #endregion
-
-        #region WebViewObjectのセット
-        /// <summary>
-        /// WebViewObjectのセット
-        /// </summary>
-        /// <param name="webview"></param>
-        async public void SetWebviewObject(WebView2 webview)
-        {
-            try
-            {
-                if (this.WebviewObject == null)
-                {
-                    this.WebviewObject = webview;
-                    await webview.EnsureCoreWebView2Async(null);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex.Message);
-                ShowMessage.ShowErrorOK(ex.Message, "Error");
-            }
-
-        }
-        #endregion
-
-
 
         #region マークダウンの作成
         /// <summary>
@@ -95,6 +44,9 @@ namespace menDoc2.ViewModels.UserControls
             {
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine("## ファイル一覧");
+                sb.AppendLine($"- 作成日:{DateTime.Now.ToString("yyyy/MM/dd")}");
+                sb.AppendLine($"- 作成者:{Environment.UserName}");
+                sb.AppendLine($"");
 
 
                 sb.AppendLine("|ファイル名|作成日時|更新日時|サイズ(Byte)|");
