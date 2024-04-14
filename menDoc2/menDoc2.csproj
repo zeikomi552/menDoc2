@@ -21,4 +21,16 @@
     <ProjectReference Include="..\MVVMCore\MVVMCore.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Common\js\mermaid.core.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Common\js\mermaid.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Common\Templete\HtmlCode\BaseHtml.mdtmpl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
