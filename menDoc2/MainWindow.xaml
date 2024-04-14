@@ -4,12 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:menDoc2"
-        xmlns:b="http://schemas.microsoft.com/xaml/behaviors" xmlns:ViewModels="clr-namespace:menDoc2.ViewModels" x:Class="menDoc2.MainWindow"
+        xmlns:b="http://schemas.microsoft.com/xaml/behaviors" xmlns:ViewModels="clr-namespace:menDoc2.ViewModels" xmlns:Wpf="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf" xmlns:UserControls="clr-namespace:menDoc2.Views.UserControls" x:Class="menDoc2.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Window.DataContext>
         <ViewModels:MainWindowVM/>
     </Window.DataContext>
+    <b:Interaction.Triggers>
+        <b:EventTrigger>
+            <b:CallMethodAction TargetObject="{Binding}" MethodName="Init"/>
+        </b:EventTrigger>
+    </b:Interaction.Triggers>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -24,7 +29,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <DataGrid Margin="5" IsReadOnly="True" ItemsSource="{Binding FileList.Items}" SelectedItem="{Binding  FileList.SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <DataGrid Margin="5" IsReadOnly="True" ItemsSource="{Binding FileList.Items}" SelectedItem="{Binding FileList.SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                         <b:Interaction.Triggers>
                             <b:EventTrigger EventName="SelectionChanged">
                                 <b:CallMethodAction TargetObject="{Binding}" MethodName="SelectionChanged"/>
@@ -45,7 +50,27 @@
                 </Grid>
             </TabItem>
             <TabItem Header="マークダウン">
-                <TextBox AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Text="{Binding ClassDialgram}"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Margin="5" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Text="{Binding ClassDialgram}"/>
+
+                    <Wpf:WebView2 Margin="5" Grid.Column="1">
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="Loaded">
+                                <b:CallMethodAction TargetObject="{Binding}" MethodName="SetWebViewObject"/>
+                            </b:EventTrigger>
+                        </b:Interaction.Triggers>
+                    </Wpf:WebView2>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="ファイル">
+                <Grid>
+                    <UserControls:ucFileV/>
+                </Grid>
             </TabItem>
         </TabControl>
         <StackPanel Grid.Row="1" Orientation="Horizontal">

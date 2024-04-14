@@ -1,4 +1,5 @@
-﻿using menDoc2.Models.Class;
+﻿using menDoc2.Common;
+using menDoc2.Models.Class;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Win32;
@@ -16,13 +17,9 @@ using static System.Net.WebRequestMethods;
 
 namespace menDoc2.ViewModels
 {
-    public class MainWindowVM: ViewModelBase
+    public class MainWindowVM: WebViewPrevVM
     {
         #region ファイルのリスト
-        /// <summary>
-        /// ファイルのリスト
-        /// </summary>
-        ModelList<FileM> _FileList = new ModelList<FileM>();
         /// <summary>
         /// ファイルのリスト
         /// </summary>
@@ -30,13 +27,13 @@ namespace menDoc2.ViewModels
         {
             get
             {
-                return _FileList;
+                return GblValues.Instance.FileList;
             }
             set
             {
-                if (_FileList == null || !_FileList.Equals(value))
+                if (GblValues.Instance.FileList == null || !GblValues.Instance.FileList.Equals(value))
                 {
-                    _FileList = value;
+                    GblValues.Instance.FileList = value;
                     NotifyPropertyChanged("FileList");
                 }
             }
@@ -68,10 +65,14 @@ namespace menDoc2.ViewModels
         }
         #endregion
 
-
+        /// <summary>
+        /// 初期化処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public override void Init(object sender, EventArgs e)
         {
-            
+            //base.Init(sender, e);
         }
 
         public override void Close(object sender, EventArgs e)

@@ -108,6 +108,7 @@ namespace menDoc2.Models.Class
 
             sb.AppendLine("```mermaid");
             sb.AppendLine("classDiagram");
+            sb.AppendLine("direction LR");
 
             Dictionary<string, List<string>> clsname_list = new Dictionary<string, List<string>>();
             foreach (var file in files)
@@ -136,6 +137,10 @@ namespace menDoc2.Models.Class
                     }
                     // 冗長排除
                     param_type_list = param_type_list.Distinct().ToList();
+
+                    if (clsname_list.ContainsKey(cls.Name))
+                        continue;
+
                     // クラス名とプロパティの型一覧を保持
                     clsname_list.Add(cls.Name, param_type_list);
 
