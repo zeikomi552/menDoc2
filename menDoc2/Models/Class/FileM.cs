@@ -151,6 +151,14 @@ namespace menDoc2.Models.Class
                         {
                             mtd = "+";
                         }
+                        else if (method.Accessor == Common.Enums.AccessModifier.Protected)
+                        {
+                            mtd = "#";
+                        }
+                        else if (method.Accessor == Common.Enums.AccessModifier.Package)
+                        {
+                            mtd = "~";
+                        }
                         else
                         {
                             mtd = "-";
@@ -158,11 +166,7 @@ namespace menDoc2.Models.Class
                         mtd = mtd + method.ReturnValue + " " + method.MethodName + "()";
                         sb.AppendLine("\t\t" + mtd);
                     }
-
-
-
                     sb.AppendLine("\t" + "}");
-
                 }
 
             }
