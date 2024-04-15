@@ -80,10 +80,12 @@ namespace menDoc2.Models.Class
         /// クラス図用マークダウンファイルの作成
         /// </summary>
         /// <returns>マークダウン文字列</returns>
-        public string CreateClassMarkdown()
+        public string CreateClassMarkdown2()
         {
             StringBuilder sb = new StringBuilder();
 
+            sb.AppendLine("## クラス図");
+            sb.AppendLine("");
             sb.AppendLine("```mermaid");
             sb.AppendLine("classDiagram");
             sb.AppendLine("direction LR");
@@ -117,7 +119,10 @@ namespace menDoc2.Models.Class
                     param_type_list = param_type_list.Distinct().ToList();
 
                     if (clsname_list.ContainsKey(cls.Name))
+                    {
+                        sb.AppendLine("\t" + "}");
                         continue;
+                    }
 
                     // クラス名とプロパティの型一覧を保持
                     clsname_list.Add(cls.Name, param_type_list);
@@ -146,7 +151,6 @@ namespace menDoc2.Models.Class
                     }
                     sb.AppendLine("\t" + "}");
                 }
-
             }
 
             foreach (var dic in clsname_list)
@@ -174,5 +178,54 @@ namespace menDoc2.Models.Class
         }
         #endregion
 
+        #region クラス図用マークダウンファイルの作成
+        /// <summary>
+        /// クラス図用マークダウンファイルの作成
+        /// </summary>
+        /// <returns>マークダウン文字列</returns>
+        public string CreateClassMarkdown()
+        {
+            StringBuilder sb = new StringBuilder();
+
+
+            sb.AppendLine("## クラス詳細");
+
+            foreach (var fl in this.FileList.Items)
+            {
+                sb.AppendLine($"### {fl.FileName}");
+                sb.AppendLine($"");
+                foreach (var cls in fl.ClassList.Items)
+                {
+                    sb.AppendLine($"<b> {cls.Name} : {cls.Description}</b>");
+                    sb.AppendLine($"");
+
+                    if (cls.ParameterItems.Items.Count > 0)
+                    {
+                        sb.AppendLine($"|Accessor|Type|Parameter Name|Description|");
+                        sb.AppendLine($"|---|---|---|");
+                        foreach (var param in cls.ParameterItems.Items)
+                        {
+                            sb.AppendLine($"|{param.Accessor}|{param.TypeName}|{param.ValueName}|{param.Description}|");
+                        }
+                        sb.AppendLine($"");
+                    }
+
+                    if (cls.MethodItems.Items.Count > 0)
+                    {
+                        sb.AppendLine($"|Accessor|Return Value|Method Name|Description|");
+                        sb.AppendLine($"|---|---|---|");
+                        foreach (var param in cls.MethodItems.Items)
+                        {
+                            sb.AppendLine($"|{param.Accessor}|{param.ReturnValue}|{param.MethodName}|{param.Description}|");
+                        }
+                    }
+                }
+            }
+
+
+
+            return sb.ToString();
+        }
+        #endregion
     }
 }

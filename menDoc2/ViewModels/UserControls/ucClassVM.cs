@@ -20,7 +20,7 @@ namespace menDoc2.ViewModels.UserControls
         /// </summary>
         protected override string OutFilename
         {
-            get { return "classdiagram.html"; }
+            get { return "classdetail.html"; }
         }
         #endregion
 

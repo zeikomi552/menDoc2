@@ -27,34 +27,10 @@
                     <UserControls:ucFileV/>
                 </Grid>
             </TabItem>
-            <TabItem Header="メイン">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <DataGrid Margin="5" IsReadOnly="True" ItemsSource="{Binding FileList.Items}" SelectedItem="{Binding FileList.SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                        <b:Interaction.Triggers>
-                            <b:EventTrigger EventName="SelectionChanged">
-                                <b:CallMethodAction TargetObject="{Binding}" MethodName="SelectionChanged"/>
-                            </b:EventTrigger>
-                        </b:Interaction.Triggers>
-                    </DataGrid>
-                    <DataGrid Margin="5" DataContext="{Binding FileList.SelectedItem}" IsReadOnly="True" Grid.Column="1" ItemsSource="{Binding ClassList.Items}" SelectedItem="{Binding ClassList.SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    <Grid Grid.Column="2">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <DataGrid Margin="5" DataContext="{Binding FileList.SelectedItem.ClassList.SelectedItem}" Grid.Column="2" IsReadOnly="True" ItemsSource="{Binding ParameterItems.Items}" SelectedItem="{Binding ParameterItems.SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                        <DataGrid Grid.Row="1" Margin="5" DataContext="{Binding FileList.SelectedItem.ClassList.SelectedItem}" Grid.Column="2" IsReadOnly="True" ItemsSource="{Binding MethodItems.Items}" SelectedItem="{Binding MethodItems.SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    </Grid>
-
-
-                </Grid>
+            <TabItem Header="クラス図">
+                <UserControls:ucClassDiagramV/>
             </TabItem>
-            <TabItem Header="マークダウン">
+            <TabItem Header="クラス詳細">
                 <UserControls:ucClassV/>
             </TabItem>
         </TabControl>

@@ -131,15 +131,22 @@ namespace menDoc2.ViewModels
 
                             var lst = FileM.LoadCS(csfile);
 
-                            if (lst == null)
+                            if (lst == null || lst.Count <= 0)
                                 continue;
 
 
                             foreach (var elem in lst)
                             {
+                                if(string.IsNullOrEmpty(elem.Name))
+                                    continue;
+
                                 file.ClassList.Items.Add(elem);
                             }
-                            this.FileCollection.FileList.Items.Add(file);
+
+                            if (file.ClassList.Count > 0)
+                            {
+                                this.FileCollection.FileList.Items.Add(file);
+                            }
                         }
                     }
                 }
