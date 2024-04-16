@@ -1,4 +1,5 @@
 ﻿using Markdig;
+using MVVMCore.Common.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -107,6 +108,7 @@ namespace menDoc2.Models
             try
             {
                 var html = GetHtml(markdown);
+                PathManager.CreateCurrentDirectory(filename);
                 File.WriteAllText(GetDisplayHtmlPath(filename), html);
             }
             catch
