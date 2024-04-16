@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis;
 using System.IO;
+using menDoc2.Common;
 
 namespace menDoc2.Models.Class
 {
@@ -55,6 +56,24 @@ namespace menDoc2.Models.Class
             get
             {
                 return Path.GetFileName(this.FilePath);
+            }
+        }
+
+        public string FilePathShort
+        {
+            get
+            {
+                var dirs = (from x in GblValues.Instance.FileCollection.FileList.Items
+                            where x.FilePath.Contains(".csproj")
+                            orderby x.FilePath
+                            select PathManager.GetCurrentDirectory(PathManager.GetCurrentDirectory(x.FilePath)) + @"\").Distinct().ToList();
+
+                string filepath = this.FilePath;
+                foreach (var dir in dirs)
+                {
+                    filepath = filepath.Replace(dir,"");
+                }
+                return filepath;
             }
         }
 

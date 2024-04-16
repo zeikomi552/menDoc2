@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+﻿using menDoc2.Common;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using MVVMCore.BaseClass;
 using MVVMCore.Common.Utilities;
 using System;
@@ -187,17 +188,22 @@ namespace menDoc2.Models.Class
         {
             StringBuilder sb = new StringBuilder();
 
+            // 名前順にソート
+            var tmp_file_list = from x in this.FileList.Items
+                                orderby x.FilePath
+                                select x;
 
             sb.AppendLine("## クラス詳細");
 
-            foreach (var fl in this.FileList.Items)
+            foreach (var fl in tmp_file_list)
             {
-                sb.AppendLine($"### {fl.FileName}");
-                sb.AppendLine($"");
                 foreach (var cls in fl.ClassList.Items)
                 {
-                    sb.AppendLine($"<b> {cls.Name} : {cls.Description}</b>");
-                    sb.AppendLine();
+                    sb.AppendLine($"### {cls.Name}");
+                    sb.AppendLine($"{cls.Description}");
+                    sb.AppendLine($"");
+                    sb.AppendLine($"<b>パス : {fl.FilePathShort}</b>");
+                    sb.AppendLine($"");
 
                     if (cls.ParameterItems.Items.Count > 0)
                     {

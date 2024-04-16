@@ -133,6 +133,7 @@ namespace menDoc2.ViewModels
                         if (!jogai_f)
                         {
                             file.FilePath = csfile;
+                            this.FileCollection.FileList.Items.Add(file);
 
                             var lst = FileM.LoadCS(csfile);
 
@@ -148,10 +149,6 @@ namespace menDoc2.ViewModels
                                 file.ClassList.Items.Add(elem);
                             }
 
-                            if (file.ClassList.Count > 0)
-                            {
-                                this.FileCollection.FileList.Items.Add(file);
-                            }
                         }
                     }
                 }
