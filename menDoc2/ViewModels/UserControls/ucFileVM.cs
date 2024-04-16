@@ -50,6 +50,7 @@ namespace menDoc2.ViewModels.UserControls
                 {
                     SetWebviewObject(tmp.wv2);
                 }
+                base.Init(sender, e);
             }
             catch (Exception ex)
             {

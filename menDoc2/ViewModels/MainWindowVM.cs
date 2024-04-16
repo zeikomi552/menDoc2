@@ -21,8 +21,13 @@ namespace menDoc2.ViewModels
     /// <summary>
     /// メインウィンドウ用ViewModel
     /// </summary>
-    public class MainWindowVM: WebViewPrevVM
+    public class MainWindowVM: ViewModelBase
     {
+        /// <summary>
+        /// ロガー
+        /// </summary>
+        protected static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod()!.DeclaringType);
+
         #region ファイル情報一式
         /// <summary>
         /// ファイル情報一式

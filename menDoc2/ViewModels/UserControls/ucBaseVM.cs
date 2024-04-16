@@ -232,6 +232,7 @@ namespace menDoc2.ViewModels.UserControls
                 {
                     SetWebviewObject(tmp.wv2);
                 }
+                SaveHtml();
             }
             catch (Exception ex)
             {
