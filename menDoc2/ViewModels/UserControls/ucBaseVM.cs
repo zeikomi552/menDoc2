@@ -4,6 +4,7 @@ using menDoc2.Models;
 using menDoc2.Models.Class;
 using menDoc2.Views.UserControls;
 using Microsoft.Web.WebView2.Wpf;
+using Microsoft.Win32;
 using MVVMCore.BaseClass;
 using MVVMCore.Common.Utilities;
 using MVVMCore.Common.Wrapper;
@@ -14,6 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace menDoc2.ViewModels.UserControls
 {
@@ -350,6 +352,36 @@ namespace menDoc2.ViewModels.UserControls
                 this.Html = string.Empty;
             }
 
+        }
+        #endregion
+
+        #region マークダウン出力
+        /// <summary>
+        /// マークダウン出力
+        /// </summary>
+        public void OutputMarkdown()
+        {
+            try
+            {
+                // ダイアログのインスタンスを生成
+                var dialog = new SaveFileDialog();
+
+                // ファイルの種類を設定
+                dialog.Filter = "マークダウンファイル (*.md)|*.md";
+
+                // ダイアログを表示する
+                if (dialog.ShowDialog() == true)
+                {
+                    this.Markdown = CreateMarkdown();
+                    File.WriteAllText(dialog.FileName, this.Markdown);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                ShowMessage.ShowErrorOK(ex.Message, "Error");
+                this.Html = string.Empty;
+            }
         }
         #endregion
 

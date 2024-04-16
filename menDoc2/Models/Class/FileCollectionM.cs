@@ -197,27 +197,29 @@ namespace menDoc2.Models.Class
                 foreach (var cls in fl.ClassList.Items)
                 {
                     sb.AppendLine($"<b> {cls.Name} : {cls.Description}</b>");
-                    sb.AppendLine($"");
+                    sb.AppendLine();
 
                     if (cls.ParameterItems.Items.Count > 0)
                     {
                         sb.AppendLine($"|Accessor|Type|Parameter Name|Description|");
-                        sb.AppendLine($"|---|---|---|");
+                        sb.AppendLine($"|---|---|---|---|");
                         foreach (var param in cls.ParameterItems.Items)
                         {
-                            sb.AppendLine($"|{param.Accessor}|{param.TypeName}|{param.ValueName}|{param.Description}|");
+                            sb.AppendLine($"|{param.Accessor}|{param.TypeName}|{param.ValueName}|{param.Description.Replace("\r\n","").Replace("\n", "")}|");
                         }
-                        sb.AppendLine($"");
+                        sb.AppendLine();
                     }
 
                     if (cls.MethodItems.Items.Count > 0)
                     {
+                        sb.AppendLine();
                         sb.AppendLine($"|Accessor|Return Value|Method Name|Description|");
-                        sb.AppendLine($"|---|---|---|");
+                        sb.AppendLine($"|---|---|---|---|");
                         foreach (var param in cls.MethodItems.Items)
                         {
-                            sb.AppendLine($"|{param.Accessor}|{param.ReturnValue}|{param.MethodName}|{param.Description}|");
+                            sb.AppendLine($"|{param.Accessor}|{param.ReturnValue}|{param.MethodName}|{param.Description.Replace("\r\n", "").Replace("\n", "")}|");
                         }
+                        sb.AppendLine();
                     }
                 }
             }
