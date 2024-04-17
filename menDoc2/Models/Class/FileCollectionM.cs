@@ -166,11 +166,21 @@ namespace menDoc2.Models.Class
                     {
                         if (dic_vl.Equals(dic2.Key) || dic_vl.Contains("<" + dic2.Key + ">"))
                         {
-                            sb.AppendLine("\t" + dic.Key + " -- " + dic2.Key);
+                            sb.AppendLine("\t" + dic.Key + " --> " + dic2.Key);
                         }
                     }
                 }
 
+            }
+            foreach (var file in this.FileList.Items)
+            {
+                foreach (var cls in file.ClassList.Items)
+                {
+                    foreach (var parent in cls.BaseClass)
+                    {
+                        sb.AppendLine("\t" + parent + "<| -- " + cls.Name);
+                    }
+                }
             }
             sb.AppendLine("```");
 
@@ -199,31 +209,45 @@ namespace menDoc2.Models.Class
             {
                 foreach (var cls in fl.ClassList.Items)
                 {
+                    StringBuilder types = new StringBuilder();
+                    foreach (var parent in cls.BaseClass)
+                    {
+                        types.Append(parent + " ");
+                    }
+                    if (types.Length == 0)
+                    {
+                        types.Append("なし");
+                    }
+
                     sb.AppendLine($"## {cls.Name}");
-                    sb.AppendLine($"説明：{cls.Description}");
-                    sb.AppendLine($"");
-                    sb.AppendLine($"パス : {fl.FilePathShort}");
-                    sb.AppendLine($"");
+                    sb.AppendLine($"- 修飾子：{cls.Accessor.ToString()}");
+                    sb.AppendLine($"- 継承：{types.ToString()}");
+                    sb.AppendLine($"- 説明：{cls.Description.Replace("\r\n", "\n").Replace("\n", "<br>")}");
+                    sb.AppendLine($"- パス : {fl.FilePathShort}");
+                    sb.AppendLine();
 
                     if (cls.ParameterItems.Items.Count > 0)
                     {
+                        sb.AppendLine($"Properties");
+                        sb.AppendLine();
                         sb.AppendLine($"|Accessor|Type|Parameter Name|Description|");
                         sb.AppendLine($"|---|---|---|---|");
                         foreach (var param in cls.ParameterItems.Items)
                         {
-                            sb.AppendLine($"|{param.Accessor}|{param.TypeName}|{param.ValueName}|{param.Description.Replace("\r\n","").Replace("\n", "")}|");
+                            sb.AppendLine($"|{param.Accessor}|{param.TypeName}|{param.ValueName}|{param.Description.Replace("\r\n","\n").Replace("\n", "<br>")}|");
                         }
                         sb.AppendLine();
                     }
 
                     if (cls.MethodItems.Items.Count > 0)
                     {
+                        sb.AppendLine($"Methods");
                         sb.AppendLine();
                         sb.AppendLine($"|Accessor|Return Value|Method Name|Description|");
                         sb.AppendLine($"|---|---|---|---|");
                         foreach (var param in cls.MethodItems.Items)
                         {
-                            sb.AppendLine($"|{param.Accessor}|{param.ReturnValue}|{param.MethodName}|{param.Description.Replace("\r\n", "").Replace("\n", "")}|");
+                            sb.AppendLine($"|{param.Accessor}|{param.ReturnValue}|{param.MethodName}|{param.Description.Replace("\r\n", "\n").Replace("\n", "<br>")}|");
                         }
                         sb.AppendLine();
                     }
