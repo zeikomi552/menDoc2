@@ -85,7 +85,7 @@ namespace menDoc2.Models.Class
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("## クラス図");
+            sb.AppendLine("# クラス図");
             sb.AppendLine("");
             sb.AppendLine("```mermaid");
             sb.AppendLine("classDiagram");
@@ -193,16 +193,16 @@ namespace menDoc2.Models.Class
                                 orderby x.FilePath
                                 select x;
 
-            sb.AppendLine("## クラス詳細");
+            sb.AppendLine("# クラス詳細");
 
             foreach (var fl in tmp_file_list)
             {
                 foreach (var cls in fl.ClassList.Items)
                 {
-                    sb.AppendLine($"### {cls.Name}");
-                    sb.AppendLine($"{cls.Description}");
+                    sb.AppendLine($"## {cls.Name}");
+                    sb.AppendLine($"説明：{cls.Description}");
                     sb.AppendLine($"");
-                    sb.AppendLine($"<b>パス : {fl.FilePathShort}</b>");
+                    sb.AppendLine($"パス : {fl.FilePathShort}");
                     sb.AppendLine($"");
 
                     if (cls.ParameterItems.Items.Count > 0)

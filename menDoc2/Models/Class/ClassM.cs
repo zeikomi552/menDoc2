@@ -5,11 +5,65 @@ using MVVMCore.Common.Utilities;
 using System.Text.RegularExpressions;
 using System.Security.Cryptography.Xml;
 using Microsoft.CodeAnalysis;
+using menDoc2.Common.Enums;
+using System.Collections.ObjectModel;
 
 namespace menDoc2.Models.Class
 {
     public class ClassM : ModelBase
     {
+        #region 親クラス
+        /// <summary>
+        /// 親クラス
+        /// </summary>
+        ObservableCollection<string> _BaseClass = new ObservableCollection<string>();
+        /// <summary>
+        /// 親クラス
+        /// </summary>
+        public ObservableCollection<string> BaseClass
+        {
+            get
+            {
+                return _BaseClass;
+            }
+            set
+            {
+                if (_BaseClass == null || !_BaseClass.Equals(value))
+                {
+                    _BaseClass = value;
+                    NotifyPropertyChanged("BaseClass");
+                }
+            }
+        }
+        #endregion
+
+
+
+        #region アクセス修飾子[Accessor]プロパティ
+        /// <summary>
+        /// アクセス修飾子[Accessor]プロパティ
+        /// </summary>
+        AccessModifier _Accessor = AccessModifier.Public;
+        /// <summary>
+        /// アクセス修飾子[Accessor]プロパティ
+        /// </summary>
+        public AccessModifier Accessor
+        {
+            get
+            {
+                return _Accessor;
+            }
+            set
+            {
+                if (!_Accessor.Equals(value))
+                {
+                    _Accessor = value;
+                    NotifyPropertyChanged("Accessor");
+                }
+            }
+        }
+        #endregion
+
         #region クラス名[Name]プロパティ
         /// <summary>
         /// クラス名[Name]プロパティ

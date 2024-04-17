@@ -6,9 +6,8 @@
       <title>tmp</title>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@3.0.1/github-markdown.min.css">
       <script type="text/javascript" src="{menDoc:jsdir}" charset="UTF-8"></script>
-
       <style>
       /**
  * prism.js Github theme based on GitHub's theme.
@@ -255,7 +254,7 @@ pre[data-line] .line-highlight[data-end]:after {
 
       </style>
     </head>
-    <body for="html-export" >
+    <body for="html-export" class="markdown-body">
       <div class="mume markdown-preview  "  >
 {menDoc:htmlbody}
       </div>

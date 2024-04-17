@@ -121,6 +121,48 @@ namespace menDoc2.Models.Class
                 foreach (var cls in clss)
                 {
                     ClassM cls_tmp = new ClassM();
+
+                    if (cls.BaseList != null)
+                    {
+                        foreach (var tmp in cls.BaseList.Types)
+                        {
+                            cls_tmp.BaseClass.Add(tmp.ToString());
+                        }
+                    }
+
+                    cls_tmp.Accessor = Common.Enums.AccessModifier.Private;
+                    foreach (var modi in cls.Modifiers)
+                    {
+                        switch (modi.ToString())
+                        {
+                            case "public":
+                                {
+                                    cls_tmp.Accessor = Common.Enums.AccessModifier.Public;
+                                    break;
+                                }
+                            case "private":
+                                {
+                                    cls_tmp.Accessor = Common.Enums.AccessModifier.Private;
+                                    break;
+                                }
+                            case "protected":
+                                {
+                                    cls_tmp.Accessor = Common.Enums.AccessModifier.Protected;
+                                    break;
+                                }
+                            case "package":
+                                {
+                                    cls_tmp.Accessor = Common.Enums.AccessModifier.Package;
+                                    break;
+                                }
+                            default:
+                                {
+                                    break;
+                                }
+                        }
+                    }
+
+
                     cls_tmp.Name = cls.Identifier.Text;
                     cls_tmp.CreateDate = DateTime.Now;
                     cls_tmp.CreateUser = Environment.UserName;
@@ -135,6 +177,39 @@ namespace menDoc2.Models.Class
                     foreach (var field in properties)
                     {
                         ClassParamM param = new ClassParamM();
+
+                        param.Accessor = Common.Enums.AccessModifier.Private;
+                        foreach (var modi in field.Modifiers)
+                        {
+                            switch (modi.ToString())
+                            {
+                                case "public":
+                                    {
+                                        param.Accessor = Common.Enums.AccessModifier.Public;
+                                        break;
+                                    }
+                                case "private":
+                                    {
+                                        param.Accessor = Common.Enums.AccessModifier.Private;
+                                        break;
+                                    }
+                                case "protected":
+                                    {
+                                        param.Accessor = Common.Enums.AccessModifier.Protected;
+                                        break;
+                                    }
+                                case "package":
+                                    {
+                                        param.Accessor = Common.Enums.AccessModifier.Package;
+                                        break;
+                                    }
+                                default:
+                                    {
+                                        break;
+                                    }
+                            }
+                        }
+
                         trivia = field.GetLeadingTrivia().ToString();
                         param.TypeName = field.Type.ToString();
                         param.ValueName = field.Identifier.Text;
@@ -147,6 +222,39 @@ namespace menDoc2.Models.Class
                     foreach (var method in methods)
                     {
                         ClassMethodM clsmethod = new ClassMethodM();
+
+                        clsmethod.Accessor = Common.Enums.AccessModifier.Private;
+                        foreach (var modi in method.Modifiers)
+                        {
+                            switch (modi.ToString())
+                            {
+                                case "public":
+                                    {
+                                        clsmethod.Accessor = Common.Enums.AccessModifier.Public;
+                                        break;
+                                    }
+                                case "private":
+                                    {
+                                        clsmethod.Accessor = Common.Enums.AccessModifier.Private;
+                                        break;
+                                    }
+                                case "protected":
+                                    {
+                                        clsmethod.Accessor = Common.Enums.AccessModifier.Protected;
+                                        break;
+                                    }
+                                case "package":
+                                    {
+                                        clsmethod.Accessor = Common.Enums.AccessModifier.Package;
+                                        break;
+                                    }
+                                default:
+                                    {
+                                        break;
+                                    }
+                            }
+                        }
+
                         trivia = method.GetLeadingTrivia().ToString();
                         clsmethod.Description = ExclusiveTextTrivia(trivia);
                         clsmethod.MethodName = method.Identifier.Text;
