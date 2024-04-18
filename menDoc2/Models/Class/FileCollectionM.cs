@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace menDoc2.Models.Class
 {
+    /// <summary>
+    /// ファイルリストを管理するクラス
+    /// </summary>
     public class FileCollectionM : ModelBase
     {
         #region コンストラクタ
@@ -74,7 +77,6 @@ namespace menDoc2.Models.Class
             }
         }
         #endregion
-
 
         #region クラス図用マークダウンファイルの作成
         /// <summary>

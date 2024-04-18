@@ -14,6 +14,9 @@ using menDoc2.Common;
 
 namespace menDoc2.Models.Class
 {
+    /// <summary>
+    /// ファイル管理クラス
+    /// </summary>
     public class FileM : ModelBase
     {
         #region コンストラクタ
@@ -51,6 +54,10 @@ namespace menDoc2.Models.Class
         }
         #endregion
 
+        #region ファイル名
+        /// <summary>
+        /// ファイル名
+        /// </summary>
         public string FileName
         {
             get
@@ -58,7 +65,12 @@ namespace menDoc2.Models.Class
                 return Path.GetFileName(this.FilePath);
             }
         }
+        #endregion
 
+        #region ファイルパス(ソリューションディレクトリから下)
+        /// <summary>
+        /// ファイルパス(ソリューションディレクトリから下)
+        /// </summary>
         public string FilePathShort
         {
             get
@@ -76,6 +88,7 @@ namespace menDoc2.Models.Class
                 return filepath;
             }
         }
+        #endregion
 
         #region Class要素を保持するオブジェクト
         /// <summary>
@@ -101,7 +114,6 @@ namespace menDoc2.Models.Class
             }
         }
         #endregion
-
 
         #region 読込処理
         /// <summary>
@@ -289,6 +301,12 @@ namespace menDoc2.Models.Class
         }
         #endregion
 
+        #region xmlタグの含まれたコメントから不要な文字列を取り除く関数
+        /// <summary>
+        /// xmlタグの含まれたコメントから不要な文字列を取り除く関数
+        /// </summary>
+        /// <param name="trivia">コメント文字列</param>
+        /// <returns>不要なコメントを除いたもの</returns>
         private static string ExclusiveTextTrivia(string trivia)
         {
             // コメント抜き出し
@@ -296,6 +314,6 @@ namespace menDoc2.Models.Class
             // 不要な文字列削除
             return match.Value.Replace("<summary>", "").Replace("</summary>", "").Replace("\r\n", "").Replace("///", "").Replace(" ", "").Replace("\t", "");
         }
-
+        #endregion
     }
 }
