@@ -1,8 +1,9 @@
-﻿<Window
+﻿<mah:MetroWindow
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:menDoc2"
         xmlns:b="http://schemas.microsoft.com/xaml/behaviors" xmlns:ViewModels="clr-namespace:menDoc2.ViewModels" xmlns:Wpf="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf" xmlns:UserControls="clr-namespace:menDoc2.Views.UserControls" x:Class="menDoc2.MainWindow"
         mc:Ignorable="d"
@@ -44,4 +45,4 @@
             </Button>
         </StackPanel>
     </Grid>
-</Window>
+</mah:MetroWindow>
