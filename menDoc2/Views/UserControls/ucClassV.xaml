@@ -22,25 +22,29 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <GroupBox Header="ファイル一覧">
-                <DataGrid IsReadOnly="True" Margin="5,5,5,5" ItemsSource="{Binding FileCollection.FileList.Items}" SelectedItem="{Binding FileCollection.FileList.SelectedItem}">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="ファイル名" Binding="{Binding FileName}"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </GroupBox>
-            <GroupBox Header="クラス一覧" Grid.Row="1">
-                <DataGrid IsReadOnly="True" AutoGenerateColumns="False" Margin="5,5,5,5" ItemsSource="{Binding FileCollection.FileList.SelectedItem.ClassList.Items}">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="ファイル名" Binding="{Binding Name}"/>
-                        <DataGridTextColumn Header="説明" Binding="{Binding Description}"/>
-                    </DataGrid.Columns>
-                </DataGrid>
+        <Grid Margin="5">
+            <GroupBox Margin="5" Header="情報">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <GroupBox Header="ファイル一覧">
+                        <DataGrid IsReadOnly="True" Margin="5,5,5,5" ItemsSource="{Binding FileCollection.FileList.Items}" SelectedItem="{Binding FileCollection.FileList.SelectedItem}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="ファイル名" Binding="{Binding FileName}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </GroupBox>
+                    <GroupBox Header="クラス一覧" Grid.Row="1">
+                        <DataGrid IsReadOnly="True" AutoGenerateColumns="False" Margin="5,5,5,5" ItemsSource="{Binding FileCollection.FileList.SelectedItem.ClassList.Items}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="ファイル名" Binding="{Binding Name}"/>
+                                <DataGridTextColumn Header="説明" Binding="{Binding Description}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </GroupBox>
+                </Grid>
             </GroupBox>
         </Grid>
         <Grid Margin="5" Grid.Column="1">
