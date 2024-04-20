@@ -8,7 +8,7 @@
              xmlns:local="clr-namespace:menDoc2.Views.UserControls"
              xmlns:UserControls="clr-namespace:menDoc2.ViewModels.UserControls" x:Class="menDoc2.Views.UserControls.ucClassV"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" Background="{DynamicResource MahApps.Brushes.Window.Background}">
     <UserControl.DataContext>
         <UserControls:ucClassVM/>
     </UserControl.DataContext>

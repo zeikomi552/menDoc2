@@ -12,7 +12,7 @@
              xmlns:local="clr-namespace:menDoc2.Views.UserControls"
              xmlns:UserControls="clr-namespace:menDoc2.ViewModels.UserControls" x:Class="menDoc2.Views.UserControls.ucParameterV"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="1200">
+             d:DesignHeight="600" d:DesignWidth="1200" Background="{DynamicResource MahApps.Brushes.Window.Background}">
 
     <UserControl.Resources>
         <vm:ucParameterVM x:Key="prop_vm" d:IsDataSource="True"/>
