@@ -34,7 +34,13 @@
                         <ComboBox Margin="5" VerticalAlignment="Center" Width="150"
                           ItemsSource="{Binding FileCollection.FileList.Items}"
                           SelectedItem="{Binding FileCollection.FileList.SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          DisplayMemberPath="FileName"/>
+                          DisplayMemberPath="FileName">
+                            <b:Interaction.Triggers>
+                                <b:EventTrigger EventName="SelectionChanged">
+                                    <b:CallMethodAction TargetObject="{Binding}" MethodName="FileChanged"/>
+                                </b:EventTrigger>
+                            </b:Interaction.Triggers>
+                        </ComboBox>
                         <TextBlock Margin="5" VerticalAlignment="Center" Text="クラス"/>
                         <TextBlock Margin="5" VerticalAlignment="Center" Text=":"/>
                         <ComboBox Margin="5" VerticalAlignment="Center" Width="150"
@@ -62,6 +68,10 @@
                 </StackPanel>
             </GroupBox.Header>
             <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
                 <DataGrid AutoGenerateColumns="False"  ItemsSource="{Binding Parameters.Items}" Margin="5">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Header="表示">
@@ -140,6 +150,23 @@
                         </b:EventTrigger>
                     </b:Interaction.Triggers>
                 </DataGrid>
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+
+                    <Button Margin="5" Content="全チェック">
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="Click">
+                                <b:CallMethodAction TargetObject="{Binding}" MethodName="AllCheck"/>
+                            </b:EventTrigger>
+                        </b:Interaction.Triggers>
+                    </Button>
+                    <Button Margin="5" Content="解除" Cursor="Hand">
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="Click">
+                                <b:CallMethodAction TargetObject="{Binding}" MethodName="AllUncheck"/>
+                            </b:EventTrigger>
+                        </b:Interaction.Triggers>
+                    </Button>
+                </StackPanel>
             </Grid>
         </GroupBox>
         <GroupBox Margin="5" Grid.Column="1">
