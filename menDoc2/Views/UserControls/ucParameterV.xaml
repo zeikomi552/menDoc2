@@ -141,7 +141,7 @@
             </Grid>
         </GroupBox>
         <GroupBox Margin="5" Grid.Column="1" Header="ソースコード">
-            <TextBox IsReadOnly="True" Text="{Binding SourceCode, Mode=OneWay}"/>
+            <TextBox IsReadOnly="True" Text="{Binding SourceCode, Mode=OneWay}" VerticalScrollBarVisibility="Auto"/>
         </GroupBox>
     </Grid>
 </UserControl>
