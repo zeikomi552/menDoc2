@@ -12,11 +12,11 @@ namespace menDoc2.Models.Class
         /// <summary>
         /// アクセス修飾子[Accessor]プロパティ
         /// </summary>
-        AccessModifier _Accessor = AccessModifier.Public;
+        protected AccessModifier _Accessor = AccessModifier.Public;
         /// <summary>
         /// アクセス修飾子[Accessor]プロパティ
         /// </summary>
-        public AccessModifier Accessor
+        public virtual AccessModifier Accessor
         {
             get
             {
@@ -37,11 +37,11 @@ namespace menDoc2.Models.Class
         /// <summary>
         /// 型名[TypeName]プロパティ
         /// </summary>
-        string _TypeName = string.Empty;
+        protected string _TypeName = string.Empty;
         /// <summary>
         /// 型名[TypeName]プロパティ
         /// </summary>
-        public string TypeName
+        public virtual string TypeName
         {
             get
             {
@@ -62,11 +62,11 @@ namespace menDoc2.Models.Class
         /// <summary>
         /// 変数名[ValueName]プロパティ
         /// </summary>
-        string _ValueName = string.Empty;
+        protected string _ValueName = string.Empty;
         /// <summary>
         /// 変数名[ValueName]プロパティ
         /// </summary>
-        public string ValueName
+        public virtual string ValueName
         {
             get
             {
@@ -87,11 +87,11 @@ namespace menDoc2.Models.Class
         /// <summary>
         /// 説明[Description]プロパティ
         /// </summary>
-        string _Description = string.Empty;
+        protected string _Description = string.Empty;
         /// <summary>
         /// 説明[Description]プロパティ
         /// </summary>
-        public string Description
+        public virtual string Description
         {
             get
             {

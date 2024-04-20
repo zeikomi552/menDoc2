@@ -24,23 +24,25 @@
         </Grid.ColumnDefinitions>
 
         <Grid Margin="5">
-            <TabControl>
-                <TabItem Header="一覧">
-                    <DataGrid IsReadOnly="True" AutoGenerateColumns="False" ItemsSource="{Binding FileCollection.FileList.Items}">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="FileName" Binding="{Binding FileName}"/>
-                            <DataGridTextColumn Header="FilePath" Binding="{Binding FilePath}"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </TabItem>
-                <TabItem Header="除外フォルダ">
-                    <DataGrid IsReadOnly="True" AutoGenerateColumns="False" ItemsSource="{Binding FileCollection.JogaiFolder.Items}">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="FileName" Binding="{Binding}"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </TabItem>
-            </TabControl>
+            <GroupBox Margin="5" Header="情報">
+                <TabControl>
+                    <TabItem Header="一覧">
+                        <DataGrid IsReadOnly="True" AutoGenerateColumns="False" ItemsSource="{Binding FileCollection.FileList.Items}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="FileName" Binding="{Binding FileName}"/>
+                                <DataGridTextColumn Header="FilePath" Binding="{Binding FilePath}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </TabItem>
+                    <TabItem Header="除外フォルダ">
+                        <DataGrid IsReadOnly="True" AutoGenerateColumns="False" ItemsSource="{Binding FileCollection.JogaiFolder.Items}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="FileName" Binding="{Binding}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </TabItem>
+                </TabControl>
+            </GroupBox>
         </Grid>
         <Grid Margin="5" Grid.Column="1">
             <GroupBox Margin="5" Header="プレビュー">

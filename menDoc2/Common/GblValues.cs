@@ -59,9 +59,5 @@ namespace menDoc2.Common
             }
         }
         #endregion
-
-
-
-
     }
 }
