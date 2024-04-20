@@ -34,6 +34,7 @@ namespace menDoc2.ViewModels.UserControls
             }
         }
         #endregion
+
         #region クラスの表示/非表示
         /// <summary>
         /// クラスの表示/非表示
@@ -59,7 +60,6 @@ namespace menDoc2.ViewModels.UserControls
         }
         #endregion
 
-
         #region ソースコード
         /// <summary>
         /// ソースコード
@@ -73,11 +73,16 @@ namespace menDoc2.ViewModels.UserControls
         }
         #endregion
 
+        #region ソースコードの更新イベント通知処理
+        /// <summary>
+        /// ソースコードの更新イベント通知処理
+        /// </summary>
         public void ExecRefreshCode()
         {
             RefreshCode();
             NotifyPropertyChanged("SourceCode");
         }
+        #endregion
 
         #region コードの更新
         /// <summary>
@@ -131,11 +136,7 @@ namespace menDoc2.ViewModels.UserControls
         }
         #endregion
 
-        public void Refresh()
-        {
-            NotifyPropertyChanged("SourceCode");
-        }
-
+        #region マークダウンの作成処理
         /// <summary>
         /// マークダウンの作成処理
         /// </summary>
@@ -144,7 +145,12 @@ namespace menDoc2.ViewModels.UserControls
         {
             return string.Empty;
         }
+        #endregion
 
+        #region クラスの切替処理
+        /// <summary>
+        /// クラスの切替処理
+        /// </summary>
         public void ClassChanged()
         {
             try
@@ -159,6 +165,7 @@ namespace menDoc2.ViewModels.UserControls
                     return;
                 }
 
+
                 foreach (var tmp in FileCollection.FileList.SelectedItem.ClassList.SelectedItem.ParameterItems.Items)
                 {
                     ClassParam4CodeCreatorM cls = new ClassParam4CodeCreatorM(tmp);
@@ -168,6 +175,54 @@ namespace menDoc2.ViewModels.UserControls
             catch
             {
 
+            }
+        }
+        #endregion
+
+        #region ファイル名の切替処理
+        /// <summary>
+        /// ファイル名の切替処理
+        /// </summary>
+        public void FileChanged()
+        {
+            try
+            {
+                this.Parameters.Items.Clear();
+
+                if (FileCollection.FileList == null || FileCollection.FileList.SelectedItem == null)
+                {
+                    return;
+                }
+
+                FileCollection.FileList.SelectedItem.ClassList.SelectedFirst();
+            }
+            catch
+            {
+
+            }
+        }
+        #endregion
+
+        public void AllCheck()
+        {
+            try
+            {
+                foreach (var prop in Parameters.Items)
+                {
+                    prop.IsVisible = true;
+                }
+            }
+            catch
+            {
+
+            }
+        }
+
+        public void AllUncheck()
+        {
+            foreach (var prop in Parameters.Items)
+            {
+                prop.IsVisible = false;
             }
         }
     }
