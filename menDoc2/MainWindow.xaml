@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:menDoc2"
         xmlns:b="http://schemas.microsoft.com/xaml/behaviors" xmlns:ViewModels="clr-namespace:menDoc2.ViewModels" xmlns:Wpf="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf" xmlns:UserControls="clr-namespace:menDoc2.Views.UserControls" x:Class="menDoc2.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="1200">
+        Title="menDoc2" Height="800" Width="1200">
     <Window.DataContext>
         <ViewModels:MainWindowVM/>
     </Window.DataContext>
