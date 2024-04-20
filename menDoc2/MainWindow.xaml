@@ -23,19 +23,27 @@
         </Grid.RowDefinitions>
 
         <TabControl>
-            <TabItem Header="ファイル">
-                <Grid>
-                    <UserControls:ucFileV/>
-                </Grid>
+            <TabItem Header="設計書">
+                <TabControl  TabStripPlacement="Left">
+                    <TabItem Header="ファイル">
+                        <Grid>
+                            <UserControls:ucFileV/>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="クラス図">
+                        <UserControls:ucClassDiagramV/>
+                    </TabItem>
+                    <TabItem Header="クラス詳細">
+                        <UserControls:ucClassV/>
+                    </TabItem>
+                </TabControl>
             </TabItem>
-            <TabItem Header="クラス図">
-                <UserControls:ucClassDiagramV/>
-            </TabItem>
-            <TabItem Header="クラス詳細">
-                <UserControls:ucClassV/>
-            </TabItem>
-            <TabItem Header="パラメーター">
-                <UserControls:ucParameterV/>
+            <TabItem Header="コーディング">
+                <TabControl TabStripPlacement="Left">
+                    <TabItem Header="AutoCodeCreator">
+                        <UserControls:ucParameterV/>
+                    </TabItem>
+                </TabControl>
             </TabItem>
         </TabControl>
         <StackPanel Grid.Row="1" Orientation="Horizontal">
