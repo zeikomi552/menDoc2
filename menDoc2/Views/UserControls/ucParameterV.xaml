@@ -25,44 +25,44 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <GroupBox Margin="5" Header="詳細項目">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition Height="9*"/>
-                </Grid.RowDefinitions>
+        <GroupBox Margin="5">
+            <GroupBox.Header>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Margin="5" VerticalAlignment="Center" Text="ファイル"/>
-                    <TextBlock Margin="5" VerticalAlignment="Center" Text=":"/>
-                    <ComboBox Margin="5" VerticalAlignment="Center" Width="150"
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="5" VerticalAlignment="Center" Text="ファイル"/>
+                        <TextBlock Margin="5" VerticalAlignment="Center" Text=":"/>
+                        <ComboBox Margin="5" VerticalAlignment="Center" Width="150"
                           ItemsSource="{Binding FileCollection.FileList.Items}"
                           SelectedItem="{Binding FileCollection.FileList.SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           DisplayMemberPath="FileName"/>
-                    <TextBlock Margin="5" VerticalAlignment="Center" Text="クラス"/>
-                    <TextBlock Margin="5" VerticalAlignment="Center" Text=":"/>
-                    <ComboBox Margin="5" VerticalAlignment="Center" Width="150"
+                        <TextBlock Margin="5" VerticalAlignment="Center" Text="クラス"/>
+                        <TextBlock Margin="5" VerticalAlignment="Center" Text=":"/>
+                        <ComboBox Margin="5" VerticalAlignment="Center" Width="150"
                           ItemsSource="{Binding FileCollection.FileList.SelectedItem.ClassList.Items}"
                           SelectedItem="{Binding FileCollection.FileList.SelectedItem.ClassList.SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           DisplayMemberPath="Name">
-                        <b:Interaction.Triggers>
-                            <b:EventTrigger EventName="SelectionChanged">
-                                <b:CallMethodAction TargetObject="{Binding}" MethodName="ClassChanged"/>
-                            </b:EventTrigger>
-                        </b:Interaction.Triggers>
-                    </ComboBox>
-                    <CheckBox IsChecked="{Binding IsClassVisible}" Content="クラス表示">
-                        <b:Interaction.Triggers>
-                            <b:EventTrigger EventName="Checked">
-                                <b:CallMethodAction TargetObject="{Binding}" MethodName="ExecRefreshCode"/>
-                            </b:EventTrigger>
-                            <b:EventTrigger EventName="Unchecked">
-                                <b:CallMethodAction TargetObject="{Binding}" MethodName="ExecRefreshCode"/>
-                            </b:EventTrigger>
-                        </b:Interaction.Triggers>
+                            <b:Interaction.Triggers>
+                                <b:EventTrigger EventName="SelectionChanged">
+                                    <b:CallMethodAction TargetObject="{Binding}" MethodName="ClassChanged"/>
+                                </b:EventTrigger>
+                            </b:Interaction.Triggers>
+                        </ComboBox>
+                        <CheckBox IsChecked="{Binding IsClassVisible}" Content="クラス表示">
+                            <b:Interaction.Triggers>
+                                <b:EventTrigger EventName="Checked">
+                                    <b:CallMethodAction TargetObject="{Binding}" MethodName="ExecRefreshCode"/>
+                                </b:EventTrigger>
+                                <b:EventTrigger EventName="Unchecked">
+                                    <b:CallMethodAction TargetObject="{Binding}" MethodName="ExecRefreshCode"/>
+                                </b:EventTrigger>
+                            </b:Interaction.Triggers>
 
-                    </CheckBox>
+                        </CheckBox>
+                    </StackPanel>
                 </StackPanel>
-                <DataGrid AutoGenerateColumns="False"  ItemsSource="{Binding Parameters.Items}" Margin="5" Grid.Row="1">
+            </GroupBox.Header>
+            <Grid>
+                <DataGrid AutoGenerateColumns="False"  ItemsSource="{Binding Parameters.Items}" Margin="5">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Header="表示">
                             <DataGridTemplateColumn.CellTemplate>
