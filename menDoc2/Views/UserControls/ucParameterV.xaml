@@ -1,0 +1,79 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors" 
+             xmlns:vm="clr-namespace:menDoc2.ViewModels.UserControls"
+             xmlns:local="clr-namespace:menDoc2.Views.UserControls"
+             xmlns:UserControls="clr-namespace:menDoc2.ViewModels.UserControls" x:Class="menDoc2.Views.UserControls.ucParameterV"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="1200">
+
+    <UserControl.Resources>
+        <vm:ucParameterVM x:Key="prop_vm" d:IsDataSource="True"/>
+    </UserControl.Resources>
+    <UserControl.DataContext>
+        <Binding Source="{StaticResource prop_vm}"/>
+    </UserControl.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <GroupBox Margin="5" Header="詳細項目">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="9*"/>
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="5" VerticalAlignment="Center" Text="ファイル"/>
+                    <TextBlock Margin="5" VerticalAlignment="Center" Text=":"/>
+                    <ComboBox Margin="5" VerticalAlignment="Center" Width="150"
+                          ItemsSource="{Binding FileCollection.FileList.Items}"
+                          SelectedItem="{Binding FileCollection.FileList.SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          DisplayMemberPath="FileName"/>
+                    <TextBlock Margin="5" VerticalAlignment="Center" Text="クラス"/>
+                    <TextBlock Margin="5" VerticalAlignment="Center" Text=":"/>
+                    <ComboBox Margin="5" VerticalAlignment="Center" Width="150"
+                          ItemsSource="{Binding FileCollection.FileList.SelectedItem.ClassList.Items}"
+                          SelectedItem="{Binding FileCollection.FileList.SelectedItem.ClassList.SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          DisplayMemberPath="Name">
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="SelectionChanged">
+                                <b:CallMethodAction TargetObject="{Binding}" MethodName="ClassChanged"/>
+                            </b:EventTrigger>
+                        </b:Interaction.Triggers>
+                    </ComboBox>
+                    <CheckBox IsChecked="{Binding IsClassVisible}" Content="クラス表示">
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="Checked">
+                                <b:CallMethodAction TargetObject="{Binding}" MethodName="ExecRefreshCode"/>
+                            </b:EventTrigger>
+                            <b:EventTrigger EventName="Unchecked">
+                                <b:CallMethodAction TargetObject="{Binding}" MethodName="ExecRefreshCode"/>
+                            </b:EventTrigger>
+                        </b:Interaction.Triggers>
+
+                    </CheckBox>
+                </StackPanel>
+                <DataGrid AutoGenerateColumns="False"  ItemsSource="{Binding Parameters.Items}" Margin="5" Grid.Row="1">
+                    <DataGrid.Columns>
+                        <DataGridCheckBoxColumn Header="表示" Binding="{Binding IsVisible}"/>
+                        <DataGridCheckBoxColumn Header="リスト" Binding="{Binding IsList}"/>
+                        <DataGridTextColumn Header="修飾子" Binding="{Binding Accessor}"/>
+                        <DataGridTextColumn Header="型" Binding="{Binding TypeName}"/>
+                        <DataGridTextColumn Header="名称" Binding="{Binding ValueName}"/>
+                        <DataGridTextColumn Header="初期値" Binding="{Binding InitializeValue}"/>
+                        <DataGridTextColumn Width="*" Header="説明" Binding="{Binding Description}"/>
+                        <DataGridCheckBoxColumn Header="Nullチェック" Binding="{Binding IsNullChk}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </GroupBox>
+        <GroupBox Margin="5" Grid.Column="1" Header="ソースコード">
+            <TextBox IsReadOnly="True" Text="{Binding SourceCode, Mode=OneWay}"/>
+        </GroupBox>
+    </Grid>
+</UserControl>
