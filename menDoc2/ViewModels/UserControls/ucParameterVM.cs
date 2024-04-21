@@ -203,6 +203,10 @@ namespace menDoc2.ViewModels.UserControls
         }
         #endregion
 
+        #region 全てチェック
+        /// <summary>
+        /// 全てチェック
+        /// </summary>
         public void AllCheck()
         {
             try
@@ -217,7 +221,12 @@ namespace menDoc2.ViewModels.UserControls
 
             }
         }
+        #endregion
 
+        #region チェック解除
+        /// <summary>
+        /// チェック解除
+        /// </summary>
         public void AllUncheck()
         {
             foreach (var prop in Parameters.Items)
@@ -225,5 +234,6 @@ namespace menDoc2.ViewModels.UserControls
                 prop.IsVisible = false;
             }
         }
+        #endregion
     }
 }
