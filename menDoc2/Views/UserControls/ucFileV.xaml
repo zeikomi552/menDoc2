@@ -17,10 +17,10 @@
         </b:EventTrigger>
     </b:Interaction.Triggers>
 
-    <Grid>
+    <Grid Cursor="">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" MinWidth="20"/>
+            <ColumnDefinition Width="*" MinWidth="20"/>
         </Grid.ColumnDefinitions>
 
         <Grid Margin="5">
@@ -44,6 +44,7 @@
                 </TabControl>
             </GroupBox>
         </Grid>
+        <GridSplitter Width="2" HorizontalAlignment="Right" />
         <Grid Margin="5" Grid.Column="1">
             <GroupBox Margin="5" Header="プレビュー">
                 <Grid>
