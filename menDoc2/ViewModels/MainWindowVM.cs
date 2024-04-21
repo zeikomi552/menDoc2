@@ -135,11 +135,17 @@ namespace menDoc2.ViewModels
                             file.FilePath = csfile;
                             this.FileCollection.FileList.Items.Add(file);
 
+                            // .csファイルのみを確保する変数にセット
+                            if (Path.GetExtension(csfile).ToLower().Equals(".cs"))
+                            {
+                                GblValues.Instance.FileCollectionCSOnly.FileList.Items.Add(file);
+                            }
+
+
                             var lst = FileM.LoadCS(csfile);
 
                             if (lst == null || lst.Count <= 0)
                                 continue;
-
 
                             foreach (var elem in lst)
                             {
@@ -148,6 +154,7 @@ namespace menDoc2.ViewModels
 
                                 file.ClassList.Items.Add(elem);
                             }
+
 
                         }
                     }

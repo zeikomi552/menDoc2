@@ -32,9 +32,9 @@
                         <TextBlock Margin="5" VerticalAlignment="Center" Text="ファイル"/>
                         <TextBlock Margin="5" VerticalAlignment="Center" Text=":"/>
                         <ComboBox Margin="5" VerticalAlignment="Center" Width="150"
-                          ItemsSource="{Binding FileCollection.FileList.Items}"
-                          SelectedItem="{Binding FileCollection.FileList.SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          DisplayMemberPath="FileName">
+                                  ItemsSource="{Binding FileCollectionCSOnly.FileList.Items}"
+                                  SelectedItem="{Binding FileCollectionCSOnly.FileList.SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  DisplayMemberPath="FileName">
                             <b:Interaction.Triggers>
                                 <b:EventTrigger EventName="SelectionChanged">
                                     <b:CallMethodAction TargetObject="{Binding}" MethodName="FileChanged"/>
@@ -44,8 +44,8 @@
                         <TextBlock Margin="5" VerticalAlignment="Center" Text="クラス"/>
                         <TextBlock Margin="5" VerticalAlignment="Center" Text=":"/>
                         <ComboBox Margin="5" VerticalAlignment="Center" Width="150"
-                          ItemsSource="{Binding FileCollection.FileList.SelectedItem.ClassList.Items}"
-                          SelectedItem="{Binding FileCollection.FileList.SelectedItem.ClassList.SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          ItemsSource="{Binding FileCollectionCSOnly.FileList.SelectedItem.ClassList.Items}"
+                          SelectedItem="{Binding FileCollectionCSOnly.FileList.SelectedItem.ClassList.SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           DisplayMemberPath="Name">
                             <b:Interaction.Triggers>
                                 <b:EventTrigger EventName="SelectionChanged">
@@ -72,7 +72,8 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <DataGrid AutoGenerateColumns="False"  ItemsSource="{Binding Parameters.Items}" Margin="5">
+                <DataGrid AutoGenerateColumns="False" 
+                          ItemsSource="{Binding Parameters.Items}" Margin="5">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Header="表示">
                             <DataGridTemplateColumn.CellTemplate>
