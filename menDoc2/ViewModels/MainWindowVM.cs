@@ -163,6 +163,7 @@ namespace menDoc2.ViewModels
                     var list = GetFileList(cofd.FileName, "*.*");
 
                     this.FileCollection.FileList.Items.Clear();
+                    GblValues.Instance.FileCollectionCSOnly.FileList.Items.Clear();
                     foreach (var csfile in list)
                     {
                         FileM file = new FileM();
