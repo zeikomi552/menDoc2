@@ -180,7 +180,7 @@ namespace menDoc2.Models.Class
                 {
                     foreach (var parent in cls.BaseClass)
                     {
-                        sb.AppendLine("\t" + parent + "<| -- " + cls.Name);
+                        sb.AppendLine("\t" + "`" + parent+ "`" + " <|-- " + "`" + cls.Name + "`");
                     }
                 }
             }
