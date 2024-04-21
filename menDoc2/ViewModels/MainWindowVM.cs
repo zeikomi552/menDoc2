@@ -117,7 +117,19 @@ namespace menDoc2.ViewModels
             try
             {
                 _Wnd = VisualTreeHelperWrapper.GetWindow<MainWindow>(sender) as MainWindow;
-                InitializeAsync();
+
+                if (_Wnd != null)
+                {
+                    try
+                    {
+                        InitializeAsync();
+                    }
+                    catch
+                    {
+                        ShowMessage.ShowNoticeOK("WebView2ランタイムがインストールされていないようです。\r\nインストールしてください", "通知");
+                        URLUtility.OpenUrl("https://developer.microsoft.com/en-us/microsoft-edge/webview2/");
+                    }
+                }
 
             }
             catch (Exception ex)
