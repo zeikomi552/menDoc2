@@ -141,6 +141,27 @@ namespace menDoc2.ViewModels.UserControls
         }
         #endregion
 
+        #region ファイル情報一式
+        /// <summary>
+        /// ファイル情報一式
+        /// </summary>
+        public FileCollectionM FileCollectionCSOnly
+        {
+            get
+            {
+                return GblValues.Instance.FileCollectionCSOnly;
+            }
+            set
+            {
+                if (GblValues.Instance.FileCollectionCSOnly == null || !GblValues.Instance.FileCollectionCSOnly.Equals(value))
+                {
+                    GblValues.Instance.FileCollectionCSOnly = value;
+                    NotifyPropertyChanged("FileCollectionCSOnly");
+                }
+            }
+        }
+        #endregion
+
         #region マークダウン文字列
         /// <summary>
         /// マークダウン文字列

@@ -30,14 +30,14 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <GroupBox Header="ファイル一覧">
-                        <DataGrid IsReadOnly="True" Margin="5,5,5,5" ItemsSource="{Binding FileCollection.FileList.Items}" SelectedItem="{Binding FileCollection.FileList.SelectedItem}">
+                        <DataGrid IsReadOnly="True" Margin="5,5,5,5" ItemsSource="{Binding FileCollectionCSOnly.FileList.Items}" SelectedItem="{Binding FileCollectionCSOnly.FileList.SelectedItem}">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="ファイル名" Binding="{Binding FileName}"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </GroupBox>
                     <GroupBox Header="クラス一覧" Grid.Row="1">
-                        <DataGrid IsReadOnly="True" AutoGenerateColumns="False" Margin="5,5,5,5" ItemsSource="{Binding FileCollection.FileList.SelectedItem.ClassList.Items}">
+                        <DataGrid IsReadOnly="True" AutoGenerateColumns="False" Margin="5,5,5,5" ItemsSource="{Binding FileCollectionCSOnly.FileList.SelectedItem.ClassList.Items}">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="クラス名" Binding="{Binding Name}"/>
                                 <DataGridTextColumn Header="説明" Binding="{Binding Description}"/>

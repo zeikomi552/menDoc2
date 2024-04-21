@@ -40,7 +40,7 @@
             </TabItem>
             <TabItem Header="コーディング">
                 <TabControl TabStripPlacement="Left">
-                    <TabItem Header="AutoCodeCreator">
+                    <TabItem Header="WPFCodeCreator">
                         <UserControls:ucParameterV/>
                     </TabItem>
                 </TabControl>

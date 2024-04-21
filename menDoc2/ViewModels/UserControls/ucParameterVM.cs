@@ -93,14 +93,14 @@ namespace menDoc2.ViewModels.UserControls
             StringBuilder code = new StringBuilder();
             string clsname = string.Empty;
 
-            if (this.FileCollection.FileList.SelectedItem == null
-                || this.FileCollection.FileList.SelectedItem.ClassList.SelectedItem == null)
+            if (this.FileCollectionCSOnly.FileList.SelectedItem == null
+                || this.FileCollectionCSOnly.FileList.SelectedItem.ClassList.SelectedItem == null)
             {
                 ;
             }
             else
             {
-                clsname = this.FileCollection.FileList.SelectedItem.ClassList.SelectedItem.Name;
+                clsname = this.FileCollectionCSOnly.FileList.SelectedItem.ClassList.SelectedItem.Name;
             }
 
             if (this.IsClassVisible)
@@ -157,16 +157,16 @@ namespace menDoc2.ViewModels.UserControls
             {
                 this.Parameters.Items.Clear();
 
-                if (FileCollection.FileList == null || FileCollection.FileList.SelectedItem == null
-                    || FileCollection.FileList.SelectedItem.ClassList == null || FileCollection.FileList.SelectedItem.ClassList.SelectedItem == null
-                    || FileCollection.FileList.SelectedItem.ClassList.SelectedItem.ParameterItems == null
+                if (FileCollectionCSOnly.FileList == null || FileCollectionCSOnly.FileList.SelectedItem == null
+                    || FileCollectionCSOnly.FileList.SelectedItem.ClassList == null || FileCollectionCSOnly.FileList.SelectedItem.ClassList.SelectedItem == null
+                    || FileCollectionCSOnly.FileList.SelectedItem.ClassList.SelectedItem.ParameterItems == null
                     )
                 {
                     return;
                 }
 
 
-                foreach (var tmp in FileCollection.FileList.SelectedItem.ClassList.SelectedItem.ParameterItems.Items)
+                foreach (var tmp in FileCollectionCSOnly.FileList.SelectedItem.ClassList.SelectedItem.ParameterItems.Items)
                 {
                     ClassParam4CodeCreatorM cls = new ClassParam4CodeCreatorM(tmp);
                     this.Parameters.Items.Add(cls);
@@ -189,12 +189,12 @@ namespace menDoc2.ViewModels.UserControls
             {
                 this.Parameters.Items.Clear();
 
-                if (FileCollection.FileList == null || FileCollection.FileList.SelectedItem == null)
+                if (FileCollectionCSOnly.FileList == null || FileCollectionCSOnly.FileList.SelectedItem == null)
                 {
                     return;
                 }
 
-                FileCollection.FileList.SelectedItem.ClassList.SelectedFirst();
+                FileCollectionCSOnly.FileList.SelectedItem.ClassList.SelectedFirst();
             }
             catch
             {
