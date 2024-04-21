@@ -212,7 +212,6 @@ namespace menDoc2.ViewModels.UserControls
         }
         #endregion
 
-
         #region WebViewObjectのセット
         /// <summary>
         /// WebViewObjectのセット
