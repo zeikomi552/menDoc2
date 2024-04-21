@@ -62,6 +62,7 @@ namespace menDoc2.Common
             }
         }
         #endregion
+
         #region ファイル情報一式(.cs ファイルのみ)
         /// <summary>
         /// ファイル情報一式(.cs ファイルのみ)

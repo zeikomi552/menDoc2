@@ -54,7 +54,7 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
-                    <Wpf:WebView2 Margin="5,5,5,5" x:Name="wv2" Source="{Binding HtmlPath, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Wpf:WebView2 Margin="5,5,5,5" x:Name="wv2"/>
                     <StackPanel Grid.Row="1" Orientation="Horizontal">
                         <StackPanel Orientation="Horizontal">
                             <Button Margin="5" Width="100" Content="更新">

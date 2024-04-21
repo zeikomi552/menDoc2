@@ -8,6 +8,7 @@
     <UseWPF>true</UseWPF>
     <Authors>Zeikomi552</Authors>
     <Company>Zeikomi</Company>
+    <Version>0.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

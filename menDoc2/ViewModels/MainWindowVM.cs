@@ -105,6 +105,7 @@ namespace menDoc2.ViewModels
 
         MainWindow? _Wnd = null;
 
+        bool _InitF =false;
         #region 初期化処理
         /// <summary>
         /// 初期化処理
@@ -117,10 +118,59 @@ namespace menDoc2.ViewModels
             {
                 _Wnd = VisualTreeHelperWrapper.GetWindow<MainWindow>(sender) as MainWindow;
 
+                if (_Wnd != null)
+                {
+                    try
+                    {
+                        InitializeAsync();
+                    }
+                    catch
+                    {
+                        ShowMessage.ShowNoticeOK("WebView2ランタイムがインストールされていないようです。\r\nインストールしてください", "通知");
+                        URLUtility.OpenUrl("https://developer.microsoft.com/en-us/microsoft-edge/webview2/");
+                    }
+                }
+
             }
             catch (Exception ex)
             {
                 _logger.Error(ex.Message);
+                ShowMessage.ShowErrorOK(ex.Message, "Error");
+            }
+        }
+        #endregion
+
+
+        #region 初期化処理(WebView2の配布)
+        /// <summary>
+        /// 初期化処理(WebView2の配布)
+        /// </summary>
+        private async void InitializeAsync()
+        {
+            try
+            {
+                if (_InitF == false)
+                {
+                    var browserExecutableFolder = Path.Combine(MVVMCore.Common.Utilities.PathManager.GetApplicationFolder(), "EBWebView");
+
+                    // カレントディレクトリの作成
+                    MVVMCore.Common.Utilities.PathManager.CreateDirectory(browserExecutableFolder);
+
+                    // 環境の作成
+                    var webView2Environment = await Microsoft.Web.WebView2.Core.CoreWebView2Environment.CreateAsync(null, browserExecutableFolder);
+
+                    this.SelectedTab = 0;
+                    await _Wnd!.filev.wv2.EnsureCoreWebView2Async(webView2Environment);
+                    this.SelectedTab = 1;
+                    await _Wnd!.classdiagramv.wv2.EnsureCoreWebView2Async(webView2Environment);
+                    this.SelectedTab = 2;
+                    await _Wnd!.classdetailv.wv2.EnsureCoreWebView2Async(webView2Environment);
+                    this.SelectedTab = 0;
+                    _InitF = true;
+                }
+            }
+            catch (Exception ex)
+            {
                 ShowMessage.ShowErrorOK(ex.Message, "Error");
             }
         }
@@ -258,22 +308,22 @@ namespace menDoc2.ViewModels
             try
             {
 
-                for (int i = 0; i < 3; i++)
-                {
-                    this.SelectedTab = i;
-                }
-                this.SelectedTab = 0;
+                //for (int i = 0; i < 3; i++)
+                //{
+                //    this.SelectedTab = i;
+                //}
+                //this.SelectedTab = 0;
 
                 var vm = this._Wnd!.filev.DataContext as ucFileVM;
-                //vm.WebviewObject = this._Wnd!.filev.wv2;
+                this._Wnd!.filev.wv2.CoreWebView2.Navigate(vm!.HtmlPath);
                 vm!.Reload();
 
                 var vm2 = this._Wnd!.classdiagramv.DataContext as ucClassDiagramVM;
-                //vm2.WebviewObject = this._Wnd!.classdiagramv.wv2;
+                this._Wnd!.classdiagramv.wv2.CoreWebView2.Navigate(vm2!.HtmlPath);
                 vm2!.Reload();
 
                 var vm3 = this._Wnd!.classdetailv.DataContext as ucClassVM;
-                //vm3.WebviewObject = this._Wnd!.classdetailv.wv2;
+                this._Wnd!.classdetailv.wv2.CoreWebView2.Navigate(vm3!.HtmlPath);
                 vm3!.Reload();
 
                 var vm4 = this._Wnd!.parameterv.DataContext as ucParameterVM;

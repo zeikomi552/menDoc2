@@ -212,30 +212,6 @@ namespace menDoc2.ViewModels.UserControls
         }
         #endregion
 
-        #region WebViewObjectのセット
-        /// <summary>
-        /// WebViewObjectのセット
-        /// </summary>
-        /// <param name="webview"></param>
-        async public void SetWebviewObject(WebView2 webview)
-        {
-            try
-            {
-                if (this.WebviewObject == null)
-                {
-                    this.WebviewObject = webview;
-                    await webview.EnsureCoreWebView2Async(null);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex.Message);
-                ShowMessage.ShowErrorOK(ex.Message, "Error");
-            }
-
-        }
-        #endregion
-
         #region 画面初期化処理
         /// <summary>
         /// 画面初期化処理
@@ -246,12 +222,6 @@ namespace menDoc2.ViewModels.UserControls
         {
             try
             {
-                var tmp = VisualTreeHelperWrapper.GetWindow<ucFileV>(sender) as ucFileV;
-
-                if (tmp != null)
-                {
-                    SetWebviewObject(tmp.wv2);
-                }
                 SaveHtml();
             }
             catch (Exception ex)

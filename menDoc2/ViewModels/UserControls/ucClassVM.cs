@@ -34,12 +34,6 @@ namespace menDoc2.ViewModels.UserControls
         {
             try
             {
-                var tmp = VisualTreeHelperWrapper.GetWindow<ucClassV>(sender) as ucClassV;
-
-                //if (tmp != null)
-                //{
-                //    SetWebviewObject(tmp.wv2);
-                //}
                 base.Init(sender, e);
             }
             catch (Exception ex)
