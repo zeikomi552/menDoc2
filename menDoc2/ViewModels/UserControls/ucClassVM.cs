@@ -36,10 +36,10 @@ namespace menDoc2.ViewModels.UserControls
             {
                 var tmp = VisualTreeHelperWrapper.GetWindow<ucClassV>(sender) as ucClassV;
 
-                if (tmp != null)
-                {
-                    SetWebviewObject(tmp.wv2);
-                }
+                //if (tmp != null)
+                //{
+                //    SetWebviewObject(tmp.wv2);
+                //}
                 base.Init(sender, e);
             }
             catch (Exception ex)

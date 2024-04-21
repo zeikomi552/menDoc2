@@ -24,24 +24,22 @@
 
         <TabControl>
             <TabItem Header="設計書">
-                <TabControl  TabStripPlacement="Left">
+                <TabControl  TabStripPlacement="Left" SelectedIndex="{Binding SelectedTab, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <TabItem Header="ファイル">
-                        <Grid>
-                            <UserControls:ucFileV/>
-                        </Grid>
+                        <UserControls:ucFileV x:Name="filev"/>
                     </TabItem>
                     <TabItem Header="クラス図">
-                        <UserControls:ucClassDiagramV/>
+                        <UserControls:ucClassDiagramV x:Name="classdiagramv"/>
                     </TabItem>
                     <TabItem Header="クラス詳細">
-                        <UserControls:ucClassV/>
+                        <UserControls:ucClassV x:Name="classdetailv"/>
                     </TabItem>
                 </TabControl>
             </TabItem>
             <TabItem Header="コーディング">
                 <TabControl TabStripPlacement="Left">
                     <TabItem Header="WPFCodeCreator">
-                        <UserControls:ucParameterV/>
+                        <UserControls:ucParameterV x:Name="parameterv"/>
                     </TabItem>
                 </TabControl>
             </TabItem>

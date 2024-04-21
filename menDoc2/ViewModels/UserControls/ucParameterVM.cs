@@ -1,5 +1,7 @@
 ﻿using menDoc2.Models.Class;
+using menDoc2.Views.UserControls;
 using MVVMCore.Common.Utilities;
+using MVVMCore.Common.Wrapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -199,6 +201,32 @@ namespace menDoc2.ViewModels.UserControls
             catch
             {
 
+            }
+        }
+        #endregion
+
+        #region 画面初期化処理
+        /// <summary>
+        /// 画面初期化処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public override void Init(object sender, EventArgs e)
+        {
+            try
+            {
+                //var tmp = VisualTreeHelperWrapper.GetWindow<ucParameterV>(sender) as ucParameterV;
+
+                //if (tmp != null)
+                //{
+                //    SetWebviewObject(tmp.wv2);
+                //}
+                base.Init(sender, e);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                ShowMessage.ShowErrorOK(ex.Message, "Error");
             }
         }
         #endregion

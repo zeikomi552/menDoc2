@@ -1,12 +1,15 @@
 ﻿using menDoc2.Common;
 using menDoc2.Models;
 using menDoc2.Models.Class;
+using menDoc2.ViewModels.UserControls;
+using menDoc2.Views.UserControls;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using MVVMCore.BaseClass;
 using MVVMCore.Common.Utilities;
+using MVVMCore.Common.Wrapper;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,11 +26,37 @@ namespace menDoc2.ViewModels
     /// </summary>
     public class MainWindowVM: ViewModelBase
     {
+        #region ロガー
         /// <summary>
         /// ロガー
         /// </summary>
         protected static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod()!.DeclaringType);
+        #endregion
 
+        #region 選択しているタブ[SelectedTab]プロパティ
+        /// <summary>
+        /// 選択しているタブ[SelectedTab]プロパティ用変数
+        /// </summary>
+        int _SelectedTab = 0;
+        /// <summary>
+        /// 選択しているタブ[SelectedTab]プロパティ
+        /// </summary>
+        public int SelectedTab
+        {
+            get
+            {
+                return _SelectedTab;
+            }
+            set
+            {
+                if (!_SelectedTab.Equals(value))
+                {
+                    _SelectedTab = value;
+                    NotifyPropertyChanged("SelectedTab");
+                }
+            }
+        }
+        #endregion
         #region ファイル情報一式
         /// <summary>
         /// ファイル情報一式
@@ -74,6 +103,8 @@ namespace menDoc2.ViewModels
         }
         #endregion
 
+        MainWindow? _Wnd = null;
+
         #region 初期化処理
         /// <summary>
         /// 初期化処理
@@ -82,7 +113,16 @@ namespace menDoc2.ViewModels
         /// <param name="e"></param>
         public override void Init(object sender, EventArgs e)
         {
-            //base.Init(sender, e);
+            try
+            {
+                _Wnd = VisualTreeHelperWrapper.GetWindow<MainWindow>(sender) as MainWindow;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                ShowMessage.ShowErrorOK(ex.Message, "Error");
+            }
         }
         #endregion
 
@@ -165,6 +205,9 @@ namespace menDoc2.ViewModels
 
                         }
                     }
+
+                    // 各画面のリフレッシュ
+                    Refresh();
                 }
             }
             catch (Exception ex)
@@ -208,6 +251,41 @@ namespace menDoc2.ViewModels
             }
         }
         #endregion
+
+        public void Refresh()
+        {
+            try
+            {
+
+                for (int i = 0; i < 3; i++)
+                {
+                    this.SelectedTab = i;
+                }
+                this.SelectedTab = 0;
+
+                var vm = this._Wnd!.filev.DataContext as ucFileVM;
+                //vm.WebviewObject = this._Wnd!.filev.wv2;
+                vm!.Reload();
+
+                var vm2 = this._Wnd!.classdiagramv.DataContext as ucClassDiagramVM;
+                //vm2.WebviewObject = this._Wnd!.classdiagramv.wv2;
+                vm2!.Reload();
+
+                var vm3 = this._Wnd!.classdetailv.DataContext as ucClassVM;
+                //vm3.WebviewObject = this._Wnd!.classdetailv.wv2;
+                vm3!.Reload();
+
+                var vm4 = this._Wnd!.parameterv.DataContext as ucParameterVM;
+                //vm4.WebviewObject = this._Wnd!.parameterv.wv2;
+                vm4!.Reload();
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                ShowMessage.ShowErrorOK(ex.Message, "Error");
+            }
+        }
 
         #region ファイルリスト一覧取得
         /// <summary>
