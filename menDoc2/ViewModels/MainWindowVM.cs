@@ -49,8 +49,6 @@ namespace menDoc2.ViewModels
         }
         #endregion
 
-
-
         #region クラス図マークダウン
         /// <summary>
         /// クラス図マークダウン
@@ -76,6 +74,7 @@ namespace menDoc2.ViewModels
         }
         #endregion
 
+        #region 初期化処理
         /// <summary>
         /// 初期化処理
         /// </summary>
@@ -85,11 +84,19 @@ namespace menDoc2.ViewModels
         {
             //base.Init(sender, e);
         }
+        #endregion
 
+        #region 画面を閉じる処理
+        /// <summary>
+        /// 画面を閉じる処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public override void Close(object sender, EventArgs e)
         {
             
         }
+        #endregion
 
         #region フォルダの選択処理
         /// <summary>
