@@ -126,7 +126,7 @@
                         <DataGridTextColumn Header="型" Binding="{Binding TypeName}"/>
                         <DataGridTextColumn Header="名称" Binding="{Binding ValueName}"/>
                         <DataGridTextColumn Header="初期値" Binding="{Binding InitializeValue}"/>
-                        <DataGridTextColumn Width="*" Header="説明" Binding="{Binding Description}"/>
+                        <DataGridTextColumn Header="説明" Binding="{Binding Description}"/>
                         <DataGridTemplateColumn Header="nullチェック">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
