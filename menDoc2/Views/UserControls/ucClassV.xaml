@@ -19,8 +19,8 @@
     </b:Interaction.Triggers>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" MinWidth="20"/>
+            <ColumnDefinition Width="*" MinWidth="20"/>
         </Grid.ColumnDefinitions>
         <Grid Margin="5">
             <Grid>
@@ -46,6 +46,7 @@
                 </GroupBox>
             </Grid>
         </Grid>
+        <GridSplitter Width="2" HorizontalAlignment="Right" />
         <Grid Grid.Column="1">
             <GroupBox Margin="5" Header="プレビュー">
                 <Grid>
